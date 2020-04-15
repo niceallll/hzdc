@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/common.vm")
+	#parse("common/errorUtils.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+	
+</head>
+<body >
+	$!errorMsg
+    <div></div>
+    <div class="alert alert-info">当前位置<b class="tip"></b>资金管理<b class="tip"></b>提现单创建</div>
+	
+	<form id="form" action="cashOrderCreate.do" method="post" onsubmit="return submitCheck();">
+                             <table class="table table-striped table-bordered table-condensed">
+								<input type="hidden" name="type"  value="create">
+								<input type="hidden" name="userId" value="$!userInfo.id">
+								<input id="amount" type="hidden" name="amount" value="">
+                              <tr> 
+                                <td align="right">登录名：</td>
+                                <td><input type="text" name="loginId" readonly="readonly" size="20" value="$!userInfo.loginId">
+								</td>
+                              </tr>
+                              <tr> 
+                                <td align="right">用户名：</td>
+                                <td><input type="text" name="userName" readonly="readonly" size="20" value="$!userInfo.userName">
+								</td>
+                              </tr>
+                              <tr> 
+                                <td align="right">账号：</td>
+                                <td><input type="text" name="acctId" readonly="readonly" size="20" value="$!userInfo.acctId">
+								</td>
+                              </tr>
+                              <tr> 
+                                <td align="right">提现金额：<font color="#FF0000">*</font></td>
+                                <td><input id="amount1" type="text" name="amount1"  size="20" value="">
+								</td>
+                              </tr>	
+                              <tr> 
+                                <td align="right">确认金额：<font color="#FF0000">*</font></td>
+                                <td><input id="amount2" type="text"  size="20" value="">
+								</td>
+                              </tr>	
+							  <tr> 
+                                <td align="right">备注：</td>
+                                <td> <textarea rows="3" cols="12" name="memo"></textarea>
+								</td>
+                              </tr>								   
+							  <tr> 
+                                <td align="right"></td>
+                                <td><font color="#FF0000">
+									 #getErrorMessage($errorList,"amount")<br>
+									</font>
+								</td>
+                              </tr>								  
+                              <tr>
+                              	<td>&nbsp;</td>
+                              	<td><input id="cashOrderCreateSubmit" class="btn btn-inverse" type="submit" value="申请提现" /></td>
+                               </tr>		
+                            </table>
+
+	</form>
+	
+    <script type="text/javascript">
+		function submitCheck(){
+			var amount1 = jQuery('#amount1').val();
+			var amount2 = jQuery('#amount2').val();
+			if(!jQuery.isNumeric(amount1)){
+				alert("金额必须是数字");
+				return false;
+			}
+			
+			if(amount1 != amount2){
+				alert("金额两次输入不相同");
+				return false;
+			}
+			jQuery('#amount').val(amount1 * 1000);
+			document.getElementById("cashOrderCreateSubmit").disabled=true;  
+			return true;
+		}
+	</script>
+</body>
+</html>

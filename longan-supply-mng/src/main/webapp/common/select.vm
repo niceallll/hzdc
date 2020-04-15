@@ -1,0 +1,61 @@
+#macro(select $selectMap $name $value)
+	<select class="input-small" size="1" id="$!name" name="$!name" data-original-title="">
+		<option #if(!$value) selected="selected" #end value=""></option>
+		#foreach($key in ${selectMap.keySet()})
+			<option #if($!value==$key) selected="selected" #end value="$key">${selectMap.get($key)}</option>
+		#end
+	</select>
+#end
+
+#macro(selectClassMedium $selectMap $name $value)
+	<select class="input-medium" size="1"  id="$!name"  name="$!name" data-original-title="">
+		<option #if(!$value) selected="selected" #end value=""></option>
+		#foreach($key in ${selectMap.keySet()})
+			<option #if($!value==$key) selected="selected" #end value="$key">${selectMap.get($key)}</option>
+		#end
+	</select>
+#end
+
+#macro(selectClassBig $selectMap $name $value)
+	<select class="input-big" size="1"  id="$!name"  name="$!name" data-original-title="">
+		<option #if(!$value) selected="selected" #end value=""></option>
+		#foreach($key in ${selectMap.keySet()})
+			<option #if($!value==$key) selected="selected" #end value="$key">${selectMap.get($key)}</option>
+		#end
+	</select>
+#end
+
+#macro(selectReadOnly $selectMap $name $value)
+	<select class="input-small" size="1"  id="$!name"  name="$!name" readonly="readonly" data-original-title="">
+		<option #if(!$value) selected="selected" #end value=""></option>
+		#foreach($key in ${selectMap.keySet()})
+			<option #if($!value==$key) selected="selected" #end value="$key">${selectMap.get($key)}</option>
+		#end
+	</select>
+#end
+
+#macro(selectReadOnlyBig $selectMap $name $value)
+	<select class="input-big" size="1"  id="$!name" name="$!name" readonly="readonly" data-original-title="">
+		<option #if(!$value) selected="selected" #end value=""></option>
+		#foreach($key in ${selectMap.keySet()})
+			<option #if($!value==$key) selected="selected" #end value="$key">${selectMap.get($key)}</option>
+		#end
+	</select>
+#end
+
+#macro(selectOnly $selectMap $name $value)
+	<select class="input-medium" size="1" id="$!name" name="$!name" data-original-title="">
+	#foreach($key in ${selectMap.keySet()})
+		<option #if($!value==$key) selected="selected" #end value="$key">${selectMap.get($key)}</option>
+	#end
+    </select>
+#end
+
+#macro(selectArea $selectMap $name $value)
+	<select class="input-small" size="1" id="$!name" name="$!name" data-original-title="">
+		<option #if(!$value) selected="selected" #end value="">全国</option>
+		#foreach($key in ${selectMap.keySet()})
+			<option #if($!value==$key) selected="selected" #end value="$key">${selectMap.get($key)}</option>
+		#end
+	</select>
+#end

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/common.vm")
+	#parse("common/select.vm")
+	#parse("common/errorUtils.vm")
+	#parse("common/checkbox.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+	
+</head>
+<body>
+	$!errorMsg
+	 <div class="alert alert-info">当前位置<b class="tip"></b>$!bizName<b class="tip"></b>批量修改供货商品</div>
+<form id="form" action="itemSupplyEdit.do" method="post"  >
+	<input type="hidden" name="bizId" value="$!bizId" />
+	<input type="hidden" name="requestType" value="$!itemSupplyListEditForm.requestType" />
+	<input type="hidden" name="ids" value="$!itemSupplyListEditForm.ids" />
+    <table class=" table-striped table-bordered table-condensed list" style="width:100%">
+        <thead>
+            <tr>
+                <td colspan="2"><b>批量修改供货商品</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="10%">供货商品编号列表</td>
+                <td width="80%" style="table-layout:fixed;word-break:break-all;" >
+					$!itemSupplyListEditForm.ids
+				</td>
+            </tr>
+			#if($!itemSupplyListEditForm.names)
+            <tr>
+                <td width="100">供货商品名称列表</td>
+                <td width="800" >
+					$!itemSupplyListEditForm.names
+				</td>
+            </tr>
+			#end
+			<!-- 
+            <tr>
+                <td width="100">选择供货商</td>
+                <td width="">
+					#selectClassBig($!supplyTraderList,"supplyTraderId",$!itemSupplyListEditForm.supplyTraderId)
+						#getErrorMessage($errorList,"supplyTraderId")
+					    <div id="traderInfo" style="display:none">
+							
+                        </div>
+				</td>	
+            </tr>
+			  -->
+			 <tr>
+                <td width="100">供货优先级</td>
+                <td width="">
+					<input id="priority" type="text" name="priority"  size="20" value="$!itemSupplyListEditForm.priority">
+						#getErrorMessage($errorList,"priority")
+				</td>	
+            </tr>		
+			
+			<!--
+            <tr>
+                <td width="100">上游商品编号</td>
+				<td><input id="itemCostPrice" type="text" name="supplyProductCode"  size="20" value="$!itemSupplyListEditForm.supplyProductCode">
+					#getErrorMessage($errorList,"supplyProductCode")
+				</td>
+            </tr>
+			-->
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <input class="btn btn-inverse" id="find" type="submit" value="修改" />
+                    <input class="btn btn-inverse" type="button" onclick="javascript: history.go(-1)" value="取消" /></td>
+            </tr>
+        </tfoot>		
+    </table>
+</form>	
+<script>
+jQuery(document).ready(function(){
+    var traderInfo =  {#foreach($!row in $!traderInfoList)$!row.userId:"<br />供货方式 ：  <font color=\"green\" >$!row.supplyTypeDesc</font> <br />接口方式 ： <font color=\"green\" >$!row.supplyWayDesc</font>"#if($velocityCount != $!traderInfoList.size()),#end#end};
+	
+	 if(jQuery('#supplyTraderId').val()){
+ 		 jQuery("#traderInfo").show();
+		jQuery("#traderInfo").html("");
+		if(traderInfo[jQuery('#supplyTraderId').val()]){
+		  jQuery("#traderInfo").append(traderInfo[jQuery('#supplyTraderId').val()]);
+		}else{
+             jQuery("#traderInfo").append("<font color=\"red\" ><br />供货商未配置供货信息，请联系系统管理员 </font>");
+		}			 
+     }
+	 
+     jQuery('#supplyTraderId').bind('change',function(){
+          if(jQuery('#supplyTraderId').val()){
+          	jQuery("#traderInfo").show();
+			jQuery("#traderInfo").html("");
+			if(traderInfo[jQuery('#supplyTraderId').val()]){
+			  jQuery("#traderInfo").append(traderInfo[jQuery('#supplyTraderId').val()]);
+			}else{
+                 jQuery("#traderInfo").append("<font color=\"red\" ><br />供货商未配置供货信息，请联系系统管理员 </font>");
+			}
+          }else{
+    	    jQuery("#traderInfo").hide();
+			jQuery("#traderInfo").html("");
+    	  }
+     });
+ }
+);
+</script>
+</body>
+</html>

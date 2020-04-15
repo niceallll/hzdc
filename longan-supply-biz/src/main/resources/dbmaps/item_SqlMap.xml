@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="item">
+	<resultMap class="com.longan.biz.dataobject.Item" id="abatorgenerated_ItemResult">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="gmt_create" jdbcType="DATETIME" property="gmtCreate" />
+		<result column="gmt_modify" jdbcType="DATETIME" property="gmtModify" />
+		<result column="item_name" jdbcType="VARCHAR" property="itemName" />
+		<result column="item_unit" jdbcType="VARCHAR" property="itemUnit" />
+		<result column="item_face_price" jdbcType="INTEGER" property="itemFacePrice" />
+		<result column="item_sales_price" jdbcType="INTEGER" property="itemSalesPrice" />
+		<result column="item_sales_price2" jdbcType="INTEGER" property="itemSalesPrice2" />
+		<result column="item_sales_price3" jdbcType="INTEGER" property="itemSalesPrice3" />
+		<result column="item_sales_price4" jdbcType="INTEGER" property="itemSalesPrice4" />
+		<result column="item_cost_price" jdbcType="INTEGER" property="itemCostPrice" />
+		<result column="item_dummy_price" jdbcType="INTEGER" property="itemDummyPrice" />
+		<result column="biz_id" jdbcType="INTEGER" property="bizId" />
+		<result column="item_category_id" jdbcType="INTEGER" property="itemCategoryId" />
+		<result column="item_type" jdbcType="INTEGER" property="itemType" />
+		<result column="item_ext1" jdbcType="VARCHAR" property="itemExt1" />
+		<result column="item_ext2" jdbcType="VARCHAR" property="itemExt2" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="item_size" jdbcType="INTEGER" property="itemSize" />
+		<result column="item_range" jdbcType="INTEGER" property="itemRange" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="carrier_type" jdbcType="INTEGER" property="carrierType" />
+		<result column="sales_area" jdbcType="VARCHAR" property="salesArea" />
+		<result column="supply_filter_type" jdbcType="INTEGER" property="supplyFilterType" />
+		<result column="can_sync" property="canSync" jdbcType="BOOLEAN" />
+		<result column="face_type" property="faceType" jdbcType="INTEGER" />
+		<result column="number_list" property="numberList" jdbcType="VARCHAR" />
+		<result column="min_number" property="minNumber" jdbcType="INTEGER" />
+		<result column="max_number" property="maxNumber" jdbcType="INTEGER" />
+		<result column="excharge_ratio" property="exchargeRatio" jdbcType="INTEGER" />
+		<result column="repeat_type" property="repeatType" jdbcType="INTEGER" />
+		<result column="repeat_count" property="repeatCount" jdbcType="INTEGER" />
+		<result column="repeat_time" property="repeatTime" jdbcType="INTEGER" />
+		<result column="combine_type" property="combineType" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap class="com.longan.biz.dataobject.Item" id="abatorgenerated_ItemPageResult">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="gmt_create" jdbcType="DATETIME" property="gmtCreate" />
+		<result column="gmt_modify" jdbcType="DATETIME" property="gmtModify" />
+		<result column="item_name" jdbcType="VARCHAR" property="itemName" />
+		<result column="item_unit" jdbcType="VARCHAR" property="itemUnit" />
+		<result column="item_face_price" jdbcType="INTEGER" property="itemFacePrice" />
+		<result column="item_sales_price" jdbcType="INTEGER" property="itemSalesPrice" />
+		<result column="item_sales_price2" jdbcType="INTEGER" property="itemSalesPrice2" />
+		<result column="item_sales_price3" jdbcType="INTEGER" property="itemSalesPrice3" />
+		<result column="item_sales_price4" jdbcType="INTEGER" property="itemSalesPrice4" />
+		<result column="item_cost_price" jdbcType="INTEGER" property="itemCostPrice" />
+		<result column="item_dummy_price" jdbcType="INTEGER" property="itemDummyPrice" />
+		<result column="biz_id" jdbcType="INTEGER" property="bizId" />
+		<result column="item_category_id" jdbcType="INTEGER" property="itemCategoryId" />
+		<result column="item_type" jdbcType="INTEGER" property="itemType" />
+		<result column="item_ext1" jdbcType="VARCHAR" property="itemExt1" />
+		<result column="item_ext2" jdbcType="VARCHAR" property="itemExt2" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="item_size" jdbcType="INTEGER" property="itemSize" />
+		<result column="item_range" jdbcType="INTEGER" property="itemRange" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="carrier_type" jdbcType="INTEGER" property="carrierType" />
+		<result column="sales_area" jdbcType="VARCHAR" property="salesArea" />
+		<result column="supply_filter_type" jdbcType="INTEGER" property="supplyFilterType" />
+		<result column="associated" jdbcType="BOOLEAN" property="associated" />
+		<result column="canUp" jdbcType="BOOLEAN" property="canUp" />
+		<result column="can_sync" property="canSync" jdbcType="BOOLEAN" />
+		<result column="face_type" property="faceType" jdbcType="INTEGER" />
+		<result column="number_list" property="numberList" jdbcType="VARCHAR" />
+		<result column="min_number" property="minNumber" jdbcType="INTEGER" />
+		<result column="max_number" property="maxNumber" jdbcType="INTEGER" />
+		<result column="excharge_ratio" property="exchargeRatio" jdbcType="INTEGER" />
+		<result column="repeat_type" property="repeatType" jdbcType="INTEGER" />
+		<result column="repeat_count" property="repeatCount" jdbcType="INTEGER" />
+		<result column="repeat_time" property="repeatTime" jdbcType="INTEGER" />
+		<result column="combine_type" property="combineType" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="itemFullColumns">
+		id, gmt_create, gmt_modify, item_name, item_face_price, item_unit, item_sales_price, item_sales_price2,
+		item_sales_price3, item_cost_price, item_dummy_price, biz_id, item_category_id, item_type, item_ext1, item_ext2,
+		user_id, item_size, item_range, status, carrier_type, item_sales_price4, sales_area, supply_filter_type, can_sync,
+		face_type, number_list, min_number, max_number, excharge_ratio, repeat_type, repeat_count, repeat_time, combine_type
+	</sql>
+
+	<sql id="abatorgenerated_Example_Where_Clause">
+		<iterate conjunction="or" prepend="where" property="oredCriteria" removeFirstPrepend="iterate">
+			<isEqual compareValue="true" property="oredCriteria[].valid">
+				(
+				<iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithoutValue">
+					$oredCriteria[].criteriaWithoutValue[]$
+				</iterate>
+				<iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithSingleValue">
+					$oredCriteria[].criteriaWithSingleValue[].condition$
+					#oredCriteria[].criteriaWithSingleValue[].value#
+				</iterate>
+				<iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithListValue">
+					$oredCriteria[].criteriaWithListValue[].condition$
+					<iterate close=")" conjunction="," open="(" property="oredCriteria[].criteriaWithListValue[].values">
+						#oredCriteria[].criteriaWithListValue[].values[]#
+					</iterate>
+				</iterate>
+				<iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithBetweenValue">
+					$oredCriteria[].criteriaWithBetweenValue[].condition$
+					#oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+					#oredCriteria[].criteriaWithBetweenValue[].values[1]#
+				</iterate>
+				)
+			</isEqual>
+		</iterate>
+	</sql>
+
+	<select id="abatorgenerated_selectByPrimaryKey" parameterClass="com.longan.biz.dataobject.Item" resultMap="abatorgenerated_ItemResult">
+		select
+		<include refid="itemFullColumns" />
+		from item where id = #id:INTEGER#
+	</select>
+	<select id="abatorgenerated_selectByExample" parameterClass="com.longan.biz.dataobject.ItemExample" resultMap="abatorgenerated_ItemResult">
+		select
+		<include refid="itemFullColumns" />
+		from item
+		<isParameterPresent>
+			<include refid="item.abatorgenerated_Example_Where_Clause" />
+			<isNotNull property="orderByClause">
+				order by $orderByClause$
+			</isNotNull>
+		</isParameterPresent>
+	</select>
+	<delete id="abatorgenerated_deleteByPrimaryKey" parameterClass="com.longan.biz.dataobject.Item">
+		delete from item where id = #id:INTEGER#
+	</delete>
+	<delete id="abatorgenerated_deleteByExample" parameterClass="com.longan.biz.dataobject.ItemExample">
+		delete from item
+		<include refid="item.abatorgenerated_Example_Where_Clause" />
+	</delete>
+	<insert id="abatorgenerated_insert" parameterClass="com.longan.biz.dataobject.Item">
+		insert into item (
+		<include refid="itemFullColumns" />
+		) values (#id:INTEGER#, now(), now(), #itemName:VARCHAR#, #itemFacePrice:INTEGER#, #itemUnit:VARCHAR#,
+		#itemSalesPrice:INTEGER#, #itemSalesPrice2:INTEGER#, #itemSalesPrice3:INTEGER#, #itemCostPrice:INTEGER#,
+		#itemDummyPrice:INTEGER#, #bizId:INTEGER#, #itemCategoryId:INTEGER#, #itemType:INTEGER#, #itemExt1:VARCHAR#,
+		#itemExt2:VARCHAR#, #userId:BIGINT#, #itemSize:INTEGER#, #itemRange:INTEGER#, #status:INTEGER#,
+		#carrierType:INTEGER#, #itemSalesPrice4:INTEGER#, #salesArea:VARCHAR#, #supplyFilterType:INTEGER#, #canSync:BOOLEAN#,
+		#faceType:INTEGER#, #numberList:VARCHAR#, #minNumber:INTEGER#, #maxNumber:INTEGER#, #exchargeRatio:INTEGER#,
+		#repeatType:INTEGER#, #repeatCount:INTEGER#, #repeatTime:INTEGER#, #combineType:INTEGER#)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.longan.biz.dataobject.Item">
+		update item set gmt_modify = now()
+		<dynamic>
+			<isNotNull prepend="," property="itemName">
+				item_name = #itemName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemFacePrice">
+				item_face_price = #itemFacePrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemUnit">
+				item_unit = #itemUnit:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemSalesPrice">
+				item_sales_price = #itemSalesPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemSalesPrice2">
+				item_sales_price2 = #itemSalesPrice2:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemSalesPrice3">
+				item_sales_price3 = #itemSalesPrice3:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemCostPrice">
+				item_cost_price = #itemCostPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemDummyPrice">
+				item_dummy_price = #itemDummyPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="bizId">
+				biz_id = #bizId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemCategoryId">
+				item_category_id = #itemCategoryId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemType">
+				item_type = #itemType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemExt1">
+				item_ext1 = #itemExt1:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemExt2">
+				item_ext2 = #itemExt2:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="userId">
+				user_id = #userId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="itemSize">
+				item_size = #itemSize:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemRange">
+				item_range = #itemRange:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="carrierType">
+				carrier_type = #carrierType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemSalesPrice4">
+				item_sales_price4 = #itemSalesPrice4:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="salesArea">
+				sales_area = #salesArea:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="supplyFilterType">
+				supply_filter_type = #supplyFilterType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="canSync">
+				can_sync = #canSync:BOOLEAN#
+			</isNotNull>
+			<isNotNull prepend="," property="faceType">
+				face_type = #faceType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="numberList">
+				number_list = #numberList:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="minNumber">
+				min_number = #minNumber:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="maxNumber">
+				max_number = #maxNumber:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="exchargeRatio">
+				excharge_ratio = #exchargeRatio:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="repeatType">
+				repeat_type = #repeatType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="repeatCount">
+				repeat_count = #repeatCount:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="repeatTime">
+				repeat_time = #repeatTime:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="combineType">
+				combine_type = #combineType:INTEGER#
+			</isNotNull>
+		</dynamic>
+		where id = #id:INTEGER#
+	</update>
+	<select id="abatorgenerated_countByExample" parameterClass="com.longan.biz.dataobject.ItemExample" resultClass="java.lang.Integer">
+		select count(*) from item
+		<include refid="item.abatorgenerated_Example_Where_Clause" />
+	</select>
+	<update id="abatorgenerated_updateByExampleSelective">
+		update item set gmt_modify = now()
+		<dynamic>
+			<isNotNull prepend="," property="record.itemName">
+				item_name = #record.itemName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemFacePrice">
+				item_face_price = #record.itemFacePrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemUnit">
+				item_unit = #record.itemUnit:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemSalesPrice">
+				item_sales_price = #record.itemSalesPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemSalesPrice2">
+				item_sales_price2 = #record.itemSalesPrice2:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemSalesPrice3">
+				item_sales_price3 = #record.itemSalesPrice3:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemCostPrice">
+				item_cost_price = #record.itemCostPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemDummyPrice">
+				item_dummy_price = #record.itemDummyPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.bizId">
+				biz_id = #record.bizId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemCategoryId">
+				item_category_id = #record.itemCategoryId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemType">
+				item_type = #record.itemType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemExt1">
+				item_ext1 = #record.itemExt1:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemExt2">
+				item_ext2 = #record.itemExt2:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.userId">
+				user_id = #record.userId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemSize">
+				item_size = #record.itemSize:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemRange">
+				item_range = #record.itemRange:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.status">
+				status = #record.status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.carrierType">
+				carrier_type = #record.carrierType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemSalesPrice4">
+				item_sales_price4 = #record.itemSalesPrice4:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.salesArea">
+				sales_area = #record.salesArea:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.supplyFilterType">
+				supply_filter_type = #record.supplyFilterType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.canSync">
+				can_sync = #record.canSync:BOOLEAN#
+			</isNotNull>
+			<isNotNull prepend="," property="record.faceType">
+				face_type = #record.faceType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.numberList">
+				number_list = #record.numberList:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.minNumber">
+				min_number = #record.minNumber:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.maxNumber">
+				max_number = #record.maxNumber:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.exchargeRatio">
+				excharge_ratio = #record.exchargeRatio:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.repeatType">
+				repeat_type = #record.repeatType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.repeatCount">
+				repeat_count = #record.repeatCount:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.repeatTime">
+				repeat_time = #record.repeatTime:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.combineType">
+				combine_type = #record.combineType:INTEGER#
+			</isNotNull>
+		</dynamic>
+		<isParameterPresent>
+			<include refid="item.abatorgenerated_Example_Where_Clause" />
+		</isParameterPresent>
+	</update>
+
+	<sql id="whereConditions">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status">
+				status = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="itemName">
+				item_name like CONCAT('%', #itemName#, '%')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bizId">
+				biz_id = #bizId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="carrierType">
+				carrier_type = #carrierType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="itemType">
+				item_type = #itemType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="itemFacePrice">
+				item_face_price = #itemFacePrice#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="salesArea">
+				sales_area = #salesArea#
+<!--				sales_area IN-->
+<!--				<iterate open="(" close=")" property="salesArea" conjunction=",">-->
+<!--					#salesArea[]#-->
+<!--				</iterate>-->
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+
+	<select id="queryByPage" resultMap="abatorgenerated_ItemPageResult">
+		SELECT
+		<include refid="itemFullColumns" />
+		, (SELECT true FROM item_supply WHERE item.id = item_supply.item_id LIMIT 1) as associated, (SELECT true FROM
+		item_supply WHERE item.id = item_supply.item_id and item_supply.status = 2 and item.status != 2 LIMIT 1) as canUp FROM
+		item
+		<include refid="item.whereConditions" />
+		ORDER BY item_name DESC LIMIT #startRow#,#pageSize#
+	</select>
+
+
+	<select id="queryByPageCount" resultClass="java.lang.Integer">
+		SELECT count(*) FROM item
+		<include refid="item.whereConditions" />
+	</select>
+
+	<update id="batchUpdateStatusItem">
+		update item set gmt_modify = now(),status = #status# where id in
+		<iterate property="ids" open="(" conjunction="," close=")">
+			#ids[]#
+		</iterate>
+	</update>
+</sqlMap>

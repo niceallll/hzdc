@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/select.vm")
+	#parse("common/pagination.vm")
+	#parse("common/common.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/jquery.cookie.js"></script>
+</head>
+<body>
+	$!errorMsg
+    <div></div>
+    <div class="alert alert-info">当前位置<b class="tip"></b>$!bizName<b class="tip"></b>订单查询</div>
+	 <form id="smsOrderQueryForm" action="querySmsOrder.do" method="post" onsubmit="return submitCheck();" >
+		<input type="hidden" name="bizId" value="$!smsOrderQuery.bizId" />
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <td colspan="6" class="auto-style2">&nbsp;请填写查询条件 </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>订单号</td>
+                    <td class="detail">
+                        <input id="id" name="id" value="$!smsOrderQuery.id"/>
+                    </td>
+                    <td>商品</td>
+                    <td>
+						#selectClassMedium($!itemList,'itemId',$!smsOrderQuery.itemId)
+                    </td>
+                	<td>下游流水号</td>
+                    <td>
+						 <input class="input-small" id="downstreamSerialno" name="downstreamSerialno" value="$!smsOrderQuery.downstreamSerialno" />
+					</td>
+                </tr>
+                <tr>
+                    <td>订单日期 </td>
+                    <td>
+                        <div class="input-append">
+							<input class="input-small doubledate" readonly="readonly" size="10" type="text" name="startGmtCreate" value="$!dateTool.format("yyyy-MM-dd", $!smsOrderQuery.startGmtCreate)" /><span class="add-on"><i class="icon-calendar"></i></span>至<input id="endtime" class="input-small doubledate" readonly="readonly" type="text" name="endGmtCreate" value="$!dateTool.format("yyyy-MM-dd", $!smsOrderQuery.endGmtCreate)" /><span class="add-on"><i class="icon-calendar"></i></span>
+                        </div>
+                    </td>
+                    <td>代理商</td>
+                    <td>
+						#selectClassMedium($!downStreamUser,'userId',$!smsOrderQuery.userId)
+					</td>
+                    <td>订单状态 </td>
+                    <td>
+						#select($!statusList,'status',$!smsOrderQuery.status)
+					</td>
+                </tr>
+				#if($!userInfo.isAdmin())
+				<tr>
+					<td>上游供货商</td>
+                    <td>
+						#selectClassMedium($!upStreamUser,'upstreamId',$!smsOrderQuery.upstreamId) 
+					</td>
+					<td colspan="4"></td>
+                </tr>
+				#end
+                <tr>
+					<td colspan="2" align="right">
+                        <a class="btn btn-inverse" onclick="query();">查询</a>
+                        <input class="btn btn-inverse" type="reset" value="清空" />
+                        <a class="btn btn-inverse" onclick="javascript:fileExport()">导出</a>
+                        #if($!userInfo.isAdmin())
+                        <a class="btn btn-inverse" onclick="javascript:queryCount()">合计</a>
+                        #end
+					</td>
+					<td id="respMsg" colspan="2"></td>
+					<td colspan="2"><a id="totalCount"></a>&nbsp&nbsp<a id="totalAmount"></a>&nbsp&nbsp<a id="costAmount"></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+		<table class="table table-striped table-bordered table-condensed" id="list">
+    	    <thead>
+	            <tr class="tr_detail">
+	                <td>订单号</td>
+					<td>下游流水号</td>
+	                <td>代理商号</td>
+	                <td>商品</td>
+	                <td>交易金额</td>
+	                <td>交易时间</td>
+	                #if($!userInfo.isAdminOrPartner())
+				    <td>充值时长</td>
+				    <td>上游流水号</td>
+				    #end
+				    <td>手机数</td>
+				    <td>成功条数</td>
+				    <td>失败条数</td>
+	                <td>订单状态</td>
+					<td>操作</td>
+					#if($!userInfo.isAdmin())
+					<td>供货摘要</td>
+					#end
+					<td>扩展码</td>
+	            </tr>
+	        </thead>
+	        <tbody>
+				#foreach($!smsOrder in $!smsOrderList)
+					<tr>
+	                <td>$!smsOrder.id</td>
+					<td>$!smsOrder.downstreamSerialno</td>
+	                <td><a href="../user/userInfoShow.do?id=$!smsOrder.userId" >$!smsOrder.userId</a></td>
+	                <td>$!smsOrder.itemName</td>
+	                <td>$!smsOrder.amountDesc</td>
+	                <td>$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!smsOrder.gmtCreate)</td>
+	                #if($!userInfo.isAdminOrPartner())
+					<td>$!smsOrder.costTimeDesc</td>
+					<td>$!smsOrder.upstreamSerialno</td>
+					#end
+					<td>$!smsOrder.uidCount</td>
+					<td>$!smsOrder.succCount</td>
+					<td>$!smsOrder.failCount</td>
+	                <td>
+						<font #if($!smsOrder.showRed())color=red #end #if($!smsOrder.showGreen())color=green #end >
+						$!smsOrder.statusDesc
+						</font>
+					</td>
+					<td>
+						#if($!userInfo.isAdmin())
+							<a href="querySmsSupply.do?bizOrderId=$!smsOrder.id&bizId=$!smsOrderQuery.bizId" class="btn btn-mini btn-primary add">查看供货</a>
+	    					<a href="#" onclick="javascript:window.open('smsOrderShow.do?bizId=$!smsOrderQuery.bizId&smsOrderId=$!smsOrder.id','newwin','width=750,height=550,scrollbars=yes,top=50,left=50');" class="btn btn-mini btn-primary add">详情</a>
+	    					#if($!smsOrder.canCallback())
+		    					<a href="smsOrderDeal.do?type=callback&smsOrderId=$!smsOrder.id" class="btn btn-mini btn-danger" onclick="return confirm('是否确认对定单： $!smsOrder.id 做回调操作')">回调</a>
+	    					#end
+						#end
+					</td>
+					#if($!userInfo.isAdmin())
+	    				<td>$!smsOrder.upstreamMemo</td>
+					#end
+					<td>$!smsOrder.extend</td>
+	            </tr>
+				#end
+				
+				#pagination2($!smsOrderQuery,'smsOrderQueryForm','querySmsOrder.do')
+	        </tbody>
+    	</table>
+	</form>
+	 
+	<script type="text/javascript">
+    	$(function(){
+	    	$('.doubledate').kuiDate({
+	    		className:'doubledate',
+	    		isDisabled: "1"
+	    	});
+    	});
+		
+        function submitCheck(){
+        	if(!checkDate()){
+    			return false;
+    		}
+        	return true;
+        }
+		
+        var checkDate = function(){
+        	var start_date =  jQuery("input[name='startGmtCreate']").val();
+        	var end_date = jQuery("input[name='endGmtCreate']").val();
+        	var objDate=new Date();
+        	var year = objDate.getFullYear();
+        	var month = objDate.getMonth() + 1;
+        	var day = objDate.getDate();
+        	month = month>=10?month:'0'+month;
+        	day = day>=10?day:'0'+day;
+        	var date = year + "-" + month + "-" + day;
+        	
+        	if(!compareDate(start_date, date)){
+        		alert("起始日期不能大于当前日期！");
+        		return false;
+        	}
+        	if(!compareDate(end_date, date)){
+        		alert("终止日期不能大于当前日期！");
+        		return false;
+        	}
+        	
+        	if(!compareDate(start_date, end_date))
+        	{
+        		alert("起始日期不能大于终止日期!");
+        		return false;
+        	}
+        	var  beginTime   =   new   Date(Date.parse(start_date.replace(/-/g,   "/")));
+        	var  endTime   =   new   Date(Date.parse(end_date.replace(/-/g,   "/"))); 
+        	var onemonthe=2*30*24*60*60*1000;
+        	
+        	if((endTime-beginTime)>onemonthe)
+        	{
+        		alert("只能查二个月之内的记录!");
+        		return false;
+        	}	
+        	return true; 
+   	 	}
+    
+        function compareDate(date1, date2){
+        	year1 = date1.substring(0,date1.indexOf("-"));
+            year2 = date2.substring(0,date2.indexOf("-"));
+            month1 = date1.substring(date1.indexOf("-") + 1,date1.lastIndexOf("-"));
+            month2 = date2.substring(date2.indexOf("-") + 1,date2.lastIndexOf("-"));
+            day1 = date1.substring(date1.lastIndexOf("-") + 1);
+            day2 = date2.substring(date2.lastIndexOf("-") + 1);
+            
+            if(year1 > year2){
+                return false;
+            } else if(year1 < year2){
+            	return true;
+            } else if(month1 > month2){
+                return false;
+            } else if(month1 < month2){
+            	return true;
+            } else if(day1 > day2){
+                return false;
+            } else if(day1 < day2){
+            	return true;
+            }
+            return true;
+        }
+		
+		function query(){
+			jQuery('#smsOrderQueryForm').attr("action", "querySmsOrder.do");
+			jQuery('#smsOrderQueryForm').submit();
+		}
+		
+		function fileExport(){
+			jQuery('#smsOrderQueryForm').attr("action", "smsOrderExport.do");
+			jQuery('#smsOrderQueryForm').submit();
+		}
+		
+		function queryCount(){
+			if(!checkDate()){
+    			return false;
+    		}
+			if($("#status").val().length>0 || $("#id").val().trim().length>0 || $("#downstreamSerialno").val().trim().length>0){
+				alert("此操作仅统计成功和部分状态、并且状态、订单号和下游流水号不能填写！");
+				$("#respMsg").html("");
+				$("#totalCount").html("");
+				$("#totalAmount").html("");
+				$("#costAmount").html("");
+			}else{
+			 	htmlobj=$.ajax({url:"../api/querySmsCount.do?type=order",data:$("#smsOrderQueryForm").serialize(),async:false});
+				var response = JSON.parse(htmlobj.responseText);
+				if(response.status != "success"){
+					$("#respMsg").html("<font color='red'>" + response.errorMsg + "</font>");
+					$("#totalCount").html("");
+					$("#totalAmount").html("");
+					$("#costAmount").html("");
+				}else{
+					$("#respMsg").html("合计：");
+					$("#totalCount").html("成功总条数（<font color='red'>" + response.module.totalCount + "</font>）");
+					$("#totalAmount").html("销售总计（<font color='red'>" + response.module.totalAmount + "</font>）");
+					$("#costAmount").html("成本总计（<font color='red'>" + response.module.costAmount + "</font>）");
+				}
+			}
+		}
+    </script>
+</body>
+</html>

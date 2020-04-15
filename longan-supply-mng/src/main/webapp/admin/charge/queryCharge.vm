@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/select.vm")
+	#parse("common/pagination.vm")
+	#parse("common/common.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/jquery.cookie.js"></script>
+</head>
+<body>
+	$!errorMsg
+    <div></div>
+    <div class="alert alert-info">当前位置<b class="tip"></b>手动充值<b class="tip"></b>充值查询</div>
+	<form id="manualLogQueryForm" action="manualDeal.do?type=queryList" method="post" onsubmit="return submitCheck();" >
+		<table class="table table-striped table-bordered table-condensed">
+			<thead>
+				<tr><td colspan="6" class="auto-style2">&nbsp;请填写查询条件 </td></tr>
+            </thead>
+            <tbody>
+				<tr>
+					<td>充值日期</td>
+					<td colspan="5">
+						<div class="input-append">
+							<input class="input-small doubledate" readonly="readonly" size="10" type="text" name="startGmtCreate" value="$!dateTool.format("yyyy-MM-dd", $!manualLogQuery.startGmtCreate)" /><span class="add-on"><i class="icon-calendar"></i></span>至<input id="endtime" class="input-small doubledate" readonly="readonly" type="text" name="endGmtCreate" value="$!dateTool.format("yyyy-MM-dd", $!manualLogQuery.endGmtCreate)" /><span class="add-on"><i class="icon-calendar"></i></span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="6" align="right">
+						<a class="btn btn-inverse" onclick="query();">查询</a>
+                        <input class="btn btn-inverse" type="reset" value="清空" />
+					</td>
+                </tr>
+			</tbody>
+		</table>
+
+		<table class="table table-striped table-bordered table-condensed" id="list">
+			<thead>
+				<tr class="tr_detail">
+					<td>充值单号</td>
+					<td>代理商号</td>
+					<td>状态</td>
+					<td>总金额</td>
+					<td>成功金额</td>
+					<td>总笔数</td>
+	                <td>成功笔数</td>
+	                <td>方式</td>
+					<td>操作人</td>
+					<td>操作</td>
+	                <td>充值时间</td>
+	                <td>备注</td>
+				</tr>
+			</thead>
+			<tbody>
+			#foreach($!manualLog in $!manualLogList)
+			<tr>
+                <td>$!manualLog.id</td>
+				<td><a href="../user/userInfoShow.do?id=$!manualLog.userId" >$!manualLog.userId</a></td>
+				<td>$!manualLog.statusDesc</td>
+				<td>$!manualLog.totalPriceDesc</td>
+                <td>$!manualLog.succPriceDesc</td>
+				<td>$!manualLog.totalCount</td>
+                <td>$!manualLog.succCount</td>
+                <td>$!manualLog.chargeTypeDesc</td>
+                <td>$!manualLog.dealOperName</td>
+                <td><a href="manualDeal.do?type=queryDetail&manualLogId=$!manualLog.id" class="btn btn-mini btn-primary add">充值祥情</a></td>
+                <td>$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!manualLog.gmtCreate)</td>
+				<td>$!manualLog.memo</td>
+            </tr>
+            #end
+			
+			#pagination2($!manualLogQuery,'manualLogQueryForm','manualDeal.do?type=queryList')
+			</tbody>
+ 	   </table>
+	</form>
+	 
+	<script type="text/javascript">
+    	$(function(){
+	    	$('.doubledate').kuiDate({
+	    		className:'doubledate',
+	    		isDisabled: "1"
+	    	});
+    	});
+		
+        function submitCheck(){
+        	if(!checkDate()){
+    			return false;
+    		}
+        	return true;
+        }
+		
+        var checkDate = function(){
+        	var start_date =  jQuery("input[name='startGmtCreate']").val();
+        	var end_date = jQuery("input[name='endGmtCreate']").val();
+        	var objDate=new Date();
+        	var year = objDate.getFullYear();
+        	var month = objDate.getMonth() + 1;
+        	var day = objDate.getDate();
+        	month = month>=10?month:'0'+month;
+        	day = day>=10?day:'0'+day;
+        	var date = year + "-" + month + "-" + day;
+        	
+        	if(!compareDate(start_date, date)){
+        		alert("起始日期不能大于当前日期！");
+        		return false;
+        	}
+        	if(!compareDate(end_date, date)){
+        		alert("终止日期不能大于当前日期！");
+        		return false;
+        	}
+        	
+        	if(!compareDate(start_date, end_date)){
+        		alert("起始日期不能大于终止日期!");
+        		return false;
+        	}
+        	return true; 
+   	 	}
+    
+        function compareDate(date1, date2){
+        	year1 = date1.substring(0,date1.indexOf("-"));
+            year2 = date2.substring(0,date2.indexOf("-"));
+            month1 = date1.substring(date1.indexOf("-") + 1,date1.lastIndexOf("-"));
+            month2 = date2.substring(date2.indexOf("-") + 1,date2.lastIndexOf("-"));
+            day1 = date1.substring(date1.lastIndexOf("-") + 1);
+            day2 = date2.substring(date2.lastIndexOf("-") + 1);
+            
+            if(year1 > year2){
+                return false;
+            } else if(year1 < year2){
+            	return true;
+            } else if(month1 > month2){
+                return false;
+            } else if(month1 < month2){
+            	return true;
+            } else if(day1 > day2){
+                return false;
+            } else if(day1 < day2){
+            	return true;
+            }
+            return true;
+        }
+		
+		function query(){
+			jQuery('#manualLogQueryForm').attr("action", "manualDeal.do?type=queryList");
+			jQuery('#manualLogQueryForm').submit();
+		}
+    </script>
+</body>
+</html>

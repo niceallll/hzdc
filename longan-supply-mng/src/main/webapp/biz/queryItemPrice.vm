@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/common.vm")
+	#parse("common/select.vm")
+	#parse("common/pagination.vm")
+	
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+</head>
+<body>
+	$!errorMsg
+    <div></div>
+    <div class="alert alert-info">当前位置<b class="tip"></b>价格管理<b class="tip"></b>商品价格查询</div>
+	 <form id="itemPriceQueryForm" action="queryItemPrice.do" method="post" onsubmit="return submitCheck();">
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <td colspan="8" class="auto-style2">&nbsp;请填写查询条件</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>运营商</td>
+                    <td class="detail">
+                        #select($!carrierTypeList,'carrierType',$!itemPriceQuery.carrierType)
+                    </td>
+                    <td>供货商</td>
+                    <td class="td_detail">
+                       	#selectClassBig($!supplyTraderList,"supplyTraderId",$!itemPriceQuery.supplyTraderId)
+					</td>
+                    <td>供货商品状态 </td>
+                    <td>
+						#select($!statusList,'status',$!itemPriceQuery.status)
+					</td>
+					<td>销售区域(不支持多省域查询)</td>
+                    <td>
+						#select($!provinceList,'salesArea',$!itemPriceQuery.salesArea) 
+				    </td>					
+                </tr>
+                <tr>
+                    <td>业务类型</td>
+                    <td class="detail">
+                        #select($!bizList,'bizId',$!itemPriceQuery.bizId)
+                    </td>
+				    <td>商品名称</td>
+                    <td class="td_detail">
+                        <input  name="itemName" value="$!itemPriceQuery.itemName" /></td>
+                    <td>商品编号</td>
+                    <td class="td_detail">
+                        <input class="input-small"  name="itemId" value="$!itemPriceQuery.itemId" /></td>
+					<td>商品面值</td>
+					<td>
+						<input class="input-small" id="itemFacePrice" name="itemFacePrice" value="$!itemPriceQuery.getPriceDesc($!itemPriceQuery.itemFacePrice)" /></td>
+					</td>
+                </tr>
+                <tr>
+					<td>供货商品编号</td>
+					<td>
+						<input class="input-small" name="id" value="$!itemPriceQuery.id" /></td>
+					</td>					
+                    <td>异常状态</td>
+                    <td class="detail">
+                        #select($!exceTypeList,'exceType',$!itemPriceQuery.exceType)
+                    </td>					
+					<td colspan="4" />
+                </tr>
+                <tr>
+                    <td colspan="8" align="right">
+                        <a class="btn btn-inverse"  onclick="javascript:query();"  >查询</a>
+                        <input class="btn btn-inverse"  type="reset" value="清空" />
+                        <a class="btn btn-inverse"  onclick="javascript:fileExport()" >导出</a>
+                    </td>
+                </tr>
+            </tbody>
+         </table>
+
+	<table class="table table-striped table-bordered table-condensed" id="list">
+		<div style="padding: 4px 6px 4px;">
+		<input type="checkbox" name="" value="all"  onclick="selectAll()" /> &nbsp;&nbsp;  
+		<a class="btn btn-primary add"  onclick="javascript:batchModify();">批量调价</a>
+        </div>
+        <thead>
+            <tr class="tr_detail">
+				<td></td>
+                <td>商品编号</td>
+                <td>商品名称</td>
+				<td style="width:100px">省域</td>
+                <td>面值(元)</td>
+                <td>成本折扣(%)</td>
+				<td>价格1折扣(%)</td>
+				<td>价格2折扣(%)</td>
+				<td>价格3折扣(%)</td>
+                <td>价格4折扣(%)</td>
+                <td>单买折扣(%)</td>
+				<td>供货商</td>
+				<td>状态</td>
+                <td>操作 </td>
+            </tr>
+        </thead>
+        <tbody>
+			#foreach($!itemPrice in $!itemPriceList)
+				<tr>
+				<td><input type="checkbox" name="$itemSupplyIdList" value="$!itemPrice.id"/></td>
+                <td>$!itemPrice.itemId</td>
+                <td>
+					<a href="queryItem.do?bizId=$!itemPrice.bizId&id=$!itemPrice.itemId" target="_blank">$!itemPrice.itemName</a>
+				</td>
+                <td>
+				<span title="$!itemPrice.itemSalesAreaDesc" style="overflow: hidden;display: block; text-overflow: ellipsis;width: 10em; white-space: nowrap;">$!itemPrice.itemSalesAreaDesc</span>
+				</td>
+                <td>$!itemPrice.getPriceDesc($!itemPrice.itemFacePrice)</td>
+                <td>$!itemPrice.itemCostPriceDiscount</td>
+				<td>
+					<font #if($!itemPrice.itemCostPriceDiscount && $!itemPrice.itemSalesPriceDiscount  && ($!itemPrice.itemCostPrice > $!itemPrice.itemSalesPrice))color=red #end>
+						$!itemPrice.itemSalesPriceDiscount
+                    </font>
+				</td>
+				<td>
+					<font #if($!itemPrice.itemCostPriceDiscount && $!itemPrice.itemSalesPrice2Discount  && ($!itemPrice.itemCostPrice > $!itemPrice.itemSalesPrice2))color=red #end>
+						$!itemPrice.itemSalesPrice2Discount
+                    </font>
+				</td>
+				<td>
+					<font #if($!itemPrice.itemCostPriceDiscount && $!itemPrice.itemSalesPrice3Discount  && ($!itemPrice.itemCostPrice > $!itemPrice.itemSalesPrice3))color=red #end>
+						$!itemPrice.itemSalesPrice3Discount
+                    </font>
+				</td>
+				<td>
+					<font #if($!itemPrice.itemCostPriceDiscount && $!itemPrice.itemSalesPrice4Discount  && ($!itemPrice.itemCostPrice > $!itemPrice.itemSalesPrice4))color=red #end>
+						$!itemPrice.itemSalesPrice4Discount
+                    </font>
+				</td>
+				<td>
+					<font #if($!itemPrice.itemCostPriceDiscount && $!itemPrice.itemDummyPriceDiscount  && ($!itemPrice.itemCostPrice > $!itemPrice.itemDummyPrice))color=red #end>
+						$!itemPrice.itemDummyPriceDiscount
+                    </font>
+				</td>
+				<td>$!itemPrice.supplyTraderName</td>
+                <td>
+					<font #if($!itemPrice.showRed())color=red #end #if($!itemPrice.showGreen())color=green #end >
+						$!itemPrice.statusDesc
+					</font>
+				</td>
+				<td>
+					#if($!userInfo.isAdmin())
+    					<a href="itemPriceEdit.do?itemSupplyId=$!itemPrice.id" class="btn  btn-mini btn-primary add">调价</a>
+					#end
+				</td>
+            </tr>
+			#end
+			#pagination2($!itemPriceQuery,'itemPriceQueryForm','queryItemPrice.do')
+        </tbody>
+    </table>
+	</form>
+	<script type="text/javascript">	
+		function submitCheck(){
+			var itemFacePrice = jQuery('#itemFacePrice').val();
+			if(itemFacePrice.length == 0){
+				return true;
+			}
+			if(!jQuery.isNumeric(itemFacePrice)){
+				alert("金额必须是数字");
+				return false;
+			}
+			jQuery('#itemFacePrice').val(itemFacePrice * 1000);
+			return true;
+		}
+		
+		function query(){
+			jQuery('#itemPriceQueryForm').attr("action", "queryItemPrice.do");
+			jQuery('#itemPriceQueryForm').submit();
+		}
+		
+		function fileExport(){
+			jQuery('#itemPriceQueryForm').attr("action", "itemPriceExport.do");
+			jQuery('#itemPriceQueryForm').submit();
+		}
+		
+		function batchModify(){
+		     var a = document.getElementsByTagName("input");
+			 var list = "";
+			 var count = 0;
+			 for(var i = 0;i<a.length;i++){
+			 	if(a[i].type != "checkbox") {
+					continue;
+				}
+				
+              	 if(a[i].checked) {
+				 	if(a[i].value=="all"){
+						continue;
+					}
+				 	count++;
+				 	if(count == 1){
+						list = a[i].value; 
+					}else{
+						list = list + "," + a[i].value; 
+					}
+					
+				 }
+             }
+			 if(list.length==0){
+			    alert("必须选择一个供货商品");
+			 	return;
+			 }
+			window.location.href = "itemPriceListEdit.do?itemSupplyIdList=" + list;
+		}			
+			
+		function selectAll(){
+            var a = document.getElementsByTagName("input");
+			 var tag = true;
+			 for(var i = 0;i<a.length;i++){
+			 	if(a[i].type != "checkbox") {
+					continue;
+				}
+              	 if(a[i].checked) {
+					 tag = false;
+					 break;
+				 }else{
+				 	 tag = true;
+					 break;
+				 }
+             }
+			 
+			 for(var i = 0;i<a.length;i++){
+			 	if(a[i].type != "checkbox") {
+					continue;
+				}
+              	 if(tag) {
+					a[i].checked = false;
+				 }else{
+				 	a[i].checked = true;
+				 }
+             }	
+		}
+	</script>	
+</body>
+</html>

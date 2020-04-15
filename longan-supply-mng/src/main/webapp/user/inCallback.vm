@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/common.vm")
+	#parse("common/select.vm")
+	#parse("common/errorUtils.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+</head>
+<body>
+	$!errorMsg
+    <div class="alert alert-info">当前位置<b class="tip"></b>下游定单<b class="tip"></b>重新回调</div>
+	<form id="form" action="inCallback.do" method="post" enctype="multipart/form-data">
+		<table class="table table-striped table-bordered table-condensed">
+			<input type="hidden" name="userId" value="$!inCallbackForm.userId">
+			<tr><td align="right">下游编号：</td><td>$!inCallbackForm.userId</td></tr>
+			<tr><td align="right">用户名称：</td><td>$!inCallbackForm.userName</td></tr>
+			<tr><td align="right">公司名称：</td><td>$!inCallbackForm.compayInfo</td></tr>
+			<tr><td align="right">定单文件：</td><td><input type="file" id="bizOrderFile" name="bizOrderFile" size="20" value=""></td></tr>
+			<tr><td align="right">上传定单文件规则： </td><td><p>格式excel文件，总共两列，第一列是手机号， 第二列是下游定单号</p></td></tr>
+			<tr>
+		      	<td>&nbsp;</td>
+		      	<td>
+		      		<input id="inCallbackSubmit" class="btn btn-inverse" type="submit" value="提交回调" />
+		      		<input class="btn btn-inverse" type="button" onclick="javascript:window.location.href='queryDownStreamInfo.do?type=2'" value="取消" />
+		      	</td>
+			</tr>		
+		</table>
+	</form>
+</body>
+</html>

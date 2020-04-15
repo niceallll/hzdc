@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="pddOrder">
+    <resultMap class="com.longan.biz.dataobject.PddOrder" id="pdd_OrderResult">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="speed_refund_status" jdbcType="VARCHAR" property="speedRefundStauts"/>
+        <result column="after_sale_reason" jdbcType="VARCHAR" property="afterSaleReason"/>
+        <result column="after_sales_status" jdbcType="INTEGER" property="afterSalesStatus"/>
+        <result column="after_sales_type" jdbcType="INTEGER" property="afterSalesType"/>
+        <result column="confirm_time" jdbcType="VARCHAR" property="confirmTime"/>
+        <result column="created_time" jdbcType="VARCHAR" property="createdTime"/>
+        <result column="discount_amount" jdbcType="VARCHAR" property="discountAmount"/>
+        <result column="good_image" jdbcType="VARCHAR" property="goodImage"/>
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goods_number" jdbcType="VARCHAR" property="goodsNumber"/>
+        <result column="goods_price" jdbcType="VARCHAR" property="goodsPrice"/>
+        <result column="order_amount" jdbcType="VARCHAR" property="orderAmount"/>
+        <result column="order_sn" jdbcType="VARCHAR" property="orderSn"/>
+        <result column="out_goods_id" jdbcType="VARCHAR" property="outerGoodsId"/>
+        <result column="outer_id" jdbcType="VARCHAR" property="outerId"/>
+        <result column="refund_amout" jdbcType="VARCHAR" property="refundAmout"/>
+        <result column="sku_id" jdbcType="BIGINT" property="skuId"/>
+        <result column="tracking_number" jdbcType="BIGINT" property="trackingNumber"/>
+        <result column="updated_time" jdbcType="VARCHAR" property="updatedTime"/>
+        <result column="speed_refund_flag" jdbcType="INTEGER" property="speedRefundFlag"/>
+        <result column="uid" jdbcType="BIGINT" property="uid"/>
+    </resultMap>
+
+    <sql id="pddOrderFullColumns">
+        id,speed_refund_status,after_sale_reason,after_sales_status,after_sales_type,confirm_time,created_time,discount_amount,good_image,goods_id,
+        goods_name,goods_number,goods_price,order_amount,order_sn,out_goods_id,outer_id,refund_amout,sku_id,tracking_number,updated_time,speed_refund_flag,uid
+    </sql>
+    <select id="abatorgenerated_selectByPrimaryKey" parameterClass="com.longan.biz.dataobject.PddOrder"
+            resultMap="pdd_OrderResult">
+        select
+        <include refid="pddOrder.pddOrderFullColumns"/>
+        from pdd_order where uid =#uid:BIGINT#
+    </select>
+
+    <select id="pddoderselect" parameterClass="com.longan.biz.dataobject.PddOrder" resultMap="pdd_OrderResult">
+        select
+        <include refid="pddOrder.pddOrderFullColumns"/>
+        from pdd_order where created_time>=#createdTime:VARCHAR#
+    </select>
+    <insert id="pddInsert" parameterClass="com.longan.biz.dataobject.PddOrder">
+        insert into pdd_order(
+        <include refid="pddOrder.pddOrderFullColumns"/>
+        ) values
+        (#id:BIGINT#,#speed_refund_status:VARCHAR#,#after_sale_reason:VARCHAR#,#after_sales_status:INTEGER#,#after_sales_type:INTEGER#,
+        #confirm_time:VARCHAR#,
+        #created_time:VARCHAR#,#discount_amount:VARCHAR#,#good_image:VARCHAR#,#goods_id:BIGINT#,#goods_name:VARCHAR#,#goods_number:VARCHAR#,#goods_price:VARCHAR#,
+        #order_amount:VARCHAR#,#order_sn:VARCHAR#,#out_goods_id:VARCHAR#,#outer_id:VARCHAR#,#refund_amout:VARCHAR#,#refund_amout:VARCHAR#,#sku_id:BIGINT#,#tracking_number:BIGINT#,
+        #updated_time:VARCHAR#,#speed_refund_flag:INTEGER#,#uid:BIGINT#
+        )
+        <selectKey resultClass="Long" keyProperty="id">
+            select Last_INSERT_ID()
+        </selectKey>
+    </insert>
+</sqlMap>

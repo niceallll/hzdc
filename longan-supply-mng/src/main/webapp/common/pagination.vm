@@ -1,0 +1,239 @@
+#macro(pagination $query $formName)			
+<tr class="tr_pagenumber">
+#set($cPage = $!query.currentPage)
+#if(!$cPage)
+	#set($cPage = 1)
+#end
+#set($tPage = $!query.totalPage)
+#if(!$tPage)
+	#set($tPage = 0)
+#end
+#set($pSize = $!query.pageSize)
+#if(!$pSize)
+	#set($pSize = 0)
+#end
+#set($tItem = $!query.totalItem)
+#if(!$tItem)
+	#set($tItem = 0)
+#end
+
+#set($prePage = $cPage - 1)
+#set($nextPage = $cPage + 1)
+
+#set($showSize = 5) ##默认显示页数
+#set($midleSize = 2) ##左边到当前页的间隔页数
+#set($leftPage = 0)
+#set($rightPage = 0)
+
+#if($tPage == 0)
+	#set($leftPage = 0)
+	#set($rigtPage = 0)
+#elseif($tPage < $showSize)
+	#set($leftPage = 1)
+	#set($rightPage = $tPage)
+#else
+	#if($cPage < $showSize)
+    	#set($leftPage = 1)
+    	#set($rightPage = $showSize)
+	#else
+		#set($leftPage = $cPage - $midleSize)
+		#if($leftPage < 1)
+			#set($leftPage = 1)
+		#end
+		#set($rightPage = $cPage + $midleSize)
+		#if($rightPage > $tPage)
+			#set($rightPage = $tPage)
+		#end
+	#end
+#end
+
+#*
+tpage : $tPage
+leftPage : $leftPage
+cPage : $cPage
+leftPage:$leftPage
+rightPage: $rightPage
+*#
+
+
+	<td colspan="100">当前第$cPage页/共 $tPage页&nbsp;&nbsp;共$tItem条记录&nbsp;&nbsp;
+     <span>
+                        到第<input type="text" id="paginationCPage" name="currentPage" value="$cPage" style="width:16px;" /> 页
+      <button type="submit" class="badge badge-inverse" onclick = "gotoPageByForm()">GO</button>&nbsp;&nbsp;
+      </span>		
+	<a href='#' class="badge badge-inverse" onclick="gotoPageP(1)">首页</a>&nbsp;<a href='#' class="badge badge-inverse" #if($!tItem > 0) onclick="gotoPageP($prePage)" #end >上一页</a>&nbsp;
+    #if($!tPage > 1)
+        #foreach($p in [$leftPage..$rightPage])
+        	#if($p == $leftPage)
+        		#if($p > 1)
+        		<a href='#' class="badge badge-inverse">...</a>
+        		#end
+        	#end
+        	
+        	#if($p == $cPage)
+        		<a href='#'class="badge badge-warning">$p</a>
+        	#else
+        		<a href='#' class="badge badge-inverse" onclick="gotoPageP($p)">$p</a>
+        	#end
+        	
+        	#if($p == $rightPage)
+        		#if($p < $tPage)
+        		<a href='#' class="badge badge-inverse">...</a>
+        		#end
+        	#end
+    	#end
+    #elseif($!tPage == 1)
+           <a href='#' class="current">1</a>
+    #elseif($!tPage == 0)
+	#end
+     <a href="#" class="badge badge-inverse" #if($!tItem > 0) onclick="gotoPageP($nextPage)" #end>下一页</a>
+     <a href="#" class="badge badge-inverse" onclick="gotoPageP($tPage)">尾页</a></td>
+ </tr>
+	
+ 
+  <script language="javascript" type="text/javascript">
+	function gotoPageByForm(){
+		var form = document.forms["$formName"];
+		var page = 1;
+		if (form) {
+    		page = form.paginationCPage.value;
+			//var reg = RegExp('/^\d+$/'); 
+			//if(!reg.test(page)){
+			//	page = 1;
+			//}
+    	}
+        gotoPageP(page);
+	}
+    function gotoPageP(newPage) {
+    	var f = jQuery('#$formName');
+    	if (f) {
+			var page = jQuery("input[name='currentPage']");
+			if(page){
+				page.val(newPage);
+			}
+    		f.submit();
+    	}
+    }
+  </script> 
+#end
+
+
+#macro(pagination2 $query $formName $action)			
+<tr class="tr_pagenumber">
+#set($cPage = $!query.currentPage)
+#if(!$cPage)
+	#set($cPage = 1)
+#end
+#set($tPage = $!query.totalPage)
+#if(!$tPage)
+	#set($tPage = 0)
+#end
+#set($pSize = $!query.pageSize)
+#if(!$pSize)
+	#set($pSize = 0)
+#end
+#set($tItem = $!query.totalItem)
+#if(!$tItem)
+	#set($tItem = 0)
+#end
+
+#set($prePage = $cPage - 1)
+#set($nextPage = $cPage + 1)
+
+#set($showSize = 5) ##默认显示页数
+#set($midleSize = 2) ##左边到当前页的间隔页数
+#set($leftPage = 0)
+#set($rightPage = 0)
+
+#if($tPage == 0)
+	#set($leftPage = 0)
+	#set($rigtPage = 0)
+#elseif($tPage < $showSize)
+	#set($leftPage = 1)
+	#set($rightPage = $tPage)
+#else
+	#if($cPage < $showSize)
+    	#set($leftPage = 1)
+    	#set($rightPage = $showSize)
+	#else
+		#set($leftPage = $cPage - $midleSize)
+		#if($leftPage < 1)
+			#set($leftPage = 1)
+		#end
+		#set($rightPage = $cPage + $midleSize)
+		#if($rightPage > $tPage)
+			#set($rightPage = $tPage)
+		#end
+	#end
+#end
+
+#*
+tpage : $tPage
+leftPage : $leftPage
+cPage : $cPage
+leftPage:$leftPage
+rightPage: $rightPage
+*#
+
+
+	<td colspan="100">当前第$cPage页/共 $tPage页&nbsp;&nbsp;共$tItem条记录&nbsp;&nbsp;
+     <span>
+                        到第<input type="text" id="paginationCPage" name="currentPage" value="$cPage" style="width:16px;" /> 页
+      <button type="submit" class="badge badge-inverse" onclick = "gotoPageByForm()">GO</button>&nbsp;&nbsp;
+      </span>		
+	<a href='#' class="badge badge-inverse" onclick="gotoPageP(1)">首页</a>&nbsp;<a href='#' class="badge badge-inverse" #if($!tItem > 0) onclick="gotoPageP($prePage)" #end >上一页</a>&nbsp;
+    #if($!tPage > 1)
+        #foreach($p in [$leftPage..$rightPage])
+        	#if($p == $leftPage)
+        		#if($p > 1)
+        		<a href='#' class="badge badge-inverse">...</a>
+        		#end
+        	#end
+        	
+        	#if($p == $cPage)
+        		<a href='#'class="badge badge-warning">$p</a>
+        	#else
+        		<a href='#' class="badge badge-inverse" onclick="gotoPageP($p)">$p</a>
+        	#end
+        	
+        	#if($p == $rightPage)
+        		#if($p < $tPage)
+        		<a href='#' class="badge badge-inverse">...</a>
+        		#end
+        	#end
+    	#end
+    #elseif($!tPage == 1)
+           <a href='#' class="current">1</a>
+    #elseif($!tPage == 0)
+	#end
+     <a href="#" class="badge badge-inverse" #if($!tItem > 0) onclick="gotoPageP($nextPage)" #end>下一页</a>
+     <a href="#" class="badge badge-inverse" onclick="gotoPageP($tPage)">尾页</a></td>
+ </tr>
+	
+ 
+  <script language="javascript" type="text/javascript">
+	function gotoPageByForm(){
+		var form = document.forms["$formName"];
+		var page = 1;
+		if (form) {
+    		page = form.paginationCPage.value;
+			//var reg = RegExp('/^\d+$/'); 
+			//if(!reg.test(page)){
+			//	page = 1;
+			//}
+    	}
+        gotoPageP(page);
+	}
+    function gotoPageP(newPage) {
+    	var f = jQuery('#$formName');
+    	if (f) {
+			var page = jQuery("input[name='currentPage']");
+			if(page){
+				page.val(newPage);
+			}
+			f.attr("action", "$!action");
+    		f.submit();
+    	}
+    }
+  </script> 
+#end  			

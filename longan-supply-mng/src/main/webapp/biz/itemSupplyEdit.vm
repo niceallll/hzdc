@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/common.vm")
+	#parse("common/select.vm")
+	#parse("common/errorUtils.vm")
+	#parse("common/checkbox.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+</head>
+<body>
+	$!errorMsg
+	<div class="alert alert-info">当前位置<b class="tip"></b>$!bizName<b class="tip"></b>修改供货商品</div>
+	<form id="form" action="itemSupplyEdit.do" method="post">
+		<input type="hidden" name="bizId" value="$!itemSupply.bizId" />
+		<input type="hidden" name="itemId" value="$!itemSupply.itemId" />
+		<input type="hidden" name="id" value="$!itemSupply.id" />
+	    <table class="table-striped table-bordered table-condensed list">
+        <thead>
+            <tr>
+                <td colspan="4"><b>供货商品信息</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="100">商品名称</td>
+                <td width="450">
+                   $!item.itemName
+				</td>
+				<td width="100">通道类型</td>
+                <td width="450">
+					#selectClassBig($!supplyWayList,"supplyWay",$!itemSupply.supplyWay)
+					#getErrorMessage($errorList,"supplyWay")
+				</td>
+            </tr>
+            <tr>
+                <td width="100">面额</td>
+                <td width="450">
+					$!item.getPriceDesc($!item.itemFacePrice) 元
+				</td>
+				<td width="100">商品类型 </td>
+                <td width="450">
+					$!item.itemTypeDesc
+                </td>
+            </tr>	
+            <tr>
+                <td width="100">供货商</td>
+                <td width="450">
+					#selectClassBig($!supplyTraderList,"supplyTraderId",$!itemSupply.supplyTraderId)
+					#getErrorMessage($errorList,"supplyTraderId")
+				    <div id="traderInfo" style="display:none">
+				    </div>						
+				</td>
+                <td width="100">供货优先级</td>
+                <td width="450">
+					<input id="priority" type="text" name="priority"  size="20" value="$!itemSupply.priority">
+						#getErrorMessage($errorList,"priority")
+				</td>
+            </tr>	
+            <tr>
+	            <td width="100">成本价</td>
+                <td width="450">
+					<input  type="text" name="itemCostPrice"  size="20" value="$!item.getPriceDesc($!itemSupply.itemCostPrice)">
+					#getErrorMessage($errorList,"itemCostPrice")
+				</td>
+				<td width="100">上游商品编号</td>
+				<td width="450"><input id="itemCostPrice" type="text" name="supplyProductCode"  size="20" value="$!itemSupply.supplyProductCode">
+					#getErrorMessage($errorList,"supplyProductCode")
+				</td>
+            </tr>
+			<tr>
+            	<td width="100">损失类型</td>
+                <td class="detail" width="450">
+                    #select($!lossTypeList,'lossType',$!itemSupply.lossType)
+                    #getErrorMessage($errorList,"lossType")
+                    <div id="lossTime" style="display:none">
+                    <input type="text" name="lossTime" value="$!itemSupply.lossTime" />笔后止损
+                    #getErrorMessage($errorList,"lossTime")
+                    </div>
+                </td>
+				<td width="100">供货区域<font color="#FF0000"> *</font></td>
+                <td width="450">
+				    #select($!supplyAreaTypeList,"supplyAreaType",$!itemSupply.supplyAreaType) #getErrorMessage($errorList,"supplyAreaType")	<br />
+					<div id="areaList" style="display:none">
+						#checkBoxFlat("supplyAreaList", $!areaInfoList,$!itemSupply.supplyAreaList) <br />
+						#getErrorMessage($errorList,"supplyAreaList")
+                    </div>
+				</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <input class="btn btn-inverse" id="find" type="submit" value="修改" />
+                    <input class="btn btn-inverse" type="button" onclick="javascript: history.go(-1)" value="取消" />
+				</td>
+            </tr>
+        </tfoot>		
+    </table>
+</form>	
+<script>
+	jQuery(document).ready(function(){
+		var traderInfo = {#foreach($!row in $!traderInfoList)$!row.userId:"<br />供货方式 ：  <font color=\"green\" >$!row.supplyTypeDesc</font> <br />接口方式 ： <font color=\"green\" >$!row.supplyWayDesc</font>"#if($velocityCount != $!traderInfoList.size()),#end#end};
+		if(jQuery('#supplyTraderId').val()){
+	 		jQuery("#traderInfo").show();
+			jQuery("#traderInfo").html("");
+			if(traderInfo[jQuery('#supplyTraderId').val()]){
+				jQuery("#traderInfo").append(traderInfo[jQuery('#supplyTraderId').val()]);
+			}else{
+				jQuery("#traderInfo").append("<font color=\"red\" ><br />供货商未配置供货信息，请联系系统管理员 </font>");
+			}
+		}
+	 
+		jQuery('#supplyTraderId').bind('change',function(){
+			if(jQuery('#supplyTraderId').val()){
+	          	jQuery("#traderInfo").show();
+				jQuery("#traderInfo").html("");
+				if(traderInfo[jQuery('#supplyTraderId').val()]){
+					jQuery("#traderInfo").append(traderInfo[jQuery('#supplyTraderId').val()]);
+				}else{
+					jQuery("#traderInfo").append("<font color=\"red\" ><br />供货商未配置供货信息，请联系系统管理员 </font>");
+				}
+			}else{
+	    	    jQuery("#traderInfo").hide();
+				jQuery("#traderInfo").html("");
+			}
+		});
+     
+		if(jQuery('#supplyAreaType').val()==2){
+			jQuery("#areaList").show();
+		}
+	 
+		jQuery('#supplyAreaType').bind('change',function(){
+			if(this.value==2){
+				jQuery("#areaList").show();
+			}else{
+				jQuery("#areaList").hide();
+			}
+		});
+	});
+
+	window.onload=function(){
+		 var lossType = document.getElementById("lossType");
+		 var lossTime = document.getElementById("lossTime");
+		 if(lossType.value==1){
+		 	lossTime.style.display="block";
+		 }else{
+		 	lossTime.style.display="none";
+		 }
+		 lossType.onchange = function(){
+		 	if(lossType.value==1){
+		 		lossTime.style.display="block";
+		 	}else{
+		 		lossTime.style.display="none";
+		 	}
+		}
+	}
+</script>
+</body>
+</html>

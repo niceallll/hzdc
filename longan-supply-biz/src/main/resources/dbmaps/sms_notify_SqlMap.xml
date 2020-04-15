@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="sms_notify">
+	<resultMap class="com.longan.biz.dataobject.SmsNotify" id="SmsNotifyResult">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="gmt_create" property="gmtCreate" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="item_uid" jdbcType="VARCHAR" property="itemUid" />
+		<result column="text" jdbcType="VARCHAR" property="text" />
+		<result column="extend" jdbcType="VARCHAR" property="extend" />
+		<result column="dest_id" jdbcType="VARCHAR" property="destId" />
+		<result column="upstream_id" jdbcType="BIGINT" property="upstreamId" />
+		<result column="upstream_serialno" jdbcType="VARCHAR" property="upstreamSerialno" />
+	</resultMap>
+
+	<sql id="smsNotifyFullColumns">
+		id, gmt_create, user_id, item_uid, text, extend, dest_id, upstream_id, upstream_serialno
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterClass="com.longan.biz.dataobject.SmsNotify" resultMap="SmsNotifyResult">
+		select
+		<include refid="smsNotifyFullColumns" />
+		from sms_notify where id = #id:BIGINT#
+	</select>
+	<insert id="insert" parameterClass="com.longan.biz.dataobject.SmsNotify">
+		insert into sms_notify (
+		<include refid="smsNotifyFullColumns" />
+		) values (#id:BIGINT#, now(), #userId:BIGINT#, #itemUid:VARCHAR#, #text:VARCHAR#, #extend:VARCHAR#, #destId:VARCHAR#,
+		#upstreamId:BIGINT#, #upstreamSerialno:VARCHAR#)
+		<selectKey resultClass="Long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<sql id="whereConditions">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="startGmtCreate">
+				gmt_create &gt;= #startGmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endGmtCreate">
+				gmt_create &lt;= #endGmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userId">
+				user_id = #userId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="upstreamId">
+				upstream_id = #upstreamId#
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+
+	<select id="queryByPageCount" resultClass="java.lang.Integer">
+		SELECT count(*) FROM sms_notify
+		<include refid="whereConditions" />
+	</select>
+	<select id="queryByPage" resultMap="SmsNotifyResult">
+		SELECT
+		<include refid="smsNotifyFullColumns" />
+		FROM sms_notify INNER JOIN (SELECT id FROM sms_notify
+		<include refid="whereConditions" />
+		ORDER BY gmt_create DESC LIMIT #startRow#,#pageSize#) as page using (id)
+	</select>
+</sqlMap>

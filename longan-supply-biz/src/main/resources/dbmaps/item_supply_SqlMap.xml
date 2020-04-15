@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="item_supply">
+	<resultMap id="abatorgenerated_ItemSupplyResult" class="com.longan.biz.dataobject.ItemSupply">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+		<result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+		<result column="supply_trader_id" property="supplyTraderId" jdbcType="BIGINT" />
+		<result column="biz_id" property="bizId" jdbcType="INTEGER" />
+		<result column="item_id" property="itemId" jdbcType="INTEGER" />
+		<result column="item_cost_price" property="itemCostPrice" jdbcType="INTEGER" />
+		<result column="priority" property="priority" jdbcType="INTEGER" />
+		<result column="supply_way" property="supplyWay" jdbcType="BOOLEAN" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="warn_quantity" property="warnQuantity" jdbcType="INTEGER" />
+		<result column="max_day" property="maxDay" jdbcType="INTEGER" />
+		<result column="num_day" property="numDay" jdbcType="INTEGER" />
+		<result column="max_mounth" property="maxMounth" jdbcType="INTEGER" />
+		<result column="num_mounth" property="numMounth" jdbcType="INTEGER" />
+		<result column="supply_product_code" property="supplyProductCode" jdbcType="VARCHAR" />
+		<result column="loss_type" property="lossType" jdbcType="INTEGER" />
+		<result column="loss_time" property="lossTime" jdbcType="INTEGER" />
+		<result column="supply_area" property="supplyArea" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="abatorgenerated_ItemSupplyPageResult" class="com.longan.biz.dataobject.ItemSupply">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+		<result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+		<result column="supply_trader_id" property="supplyTraderId" jdbcType="BIGINT" />
+		<result column="biz_id" property="bizId" jdbcType="INTEGER" />
+		<result column="item_id" property="itemId" jdbcType="INTEGER" />
+		<result column="item_cost_price" property="itemCostPrice" jdbcType="INTEGER" />
+		<result column="priority" property="priority" jdbcType="INTEGER" />
+		<result column="supply_way" property="supplyWay" jdbcType="BOOLEAN" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="warn_quantity" property="warnQuantity" jdbcType="INTEGER" />
+		<result column="max_day" property="maxDay" jdbcType="INTEGER" />
+		<result column="num_day" property="numDay" jdbcType="INTEGER" />
+		<result column="max_mounth" property="maxMounth" jdbcType="INTEGER" />
+		<result column="num_mounth" property="numMounth" jdbcType="INTEGER" />
+		<result column="supply_product_code" property="supplyProductCode" jdbcType="VARCHAR" />
+		<result column="item_name" property="itemName" jdbcType="STRING" />
+		<result column="item_type" property="itemType" jdbcType="INTEGER" />
+		<result column="item_face_price" property="itemFacePrice" jdbcType="INTEGER" />
+		<result column="sales_area" property="salesArea" jdbcType="STRING" />
+		<result column="supply_type" property="itemSupplyType" jdbcType="INTEGER" />
+		<result column="is_async_supply" property="isAsyncSupply" jdbcType="BOOLEAN" />
+		<result column="loss_type" property="lossType" jdbcType="INTEGER" />
+		<result column="loss_time" property="lossTime" jdbcType="INTEGER" />
+		<result column="supply_area" property="supplyArea" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="itemSupplyFullColumns">
+		id, gmt_create, gmt_modify, supply_trader_id, biz_id, item_id, item_cost_price, priority, supply_way,
+		status, quantity, warn_quantity, max_day, num_day, max_mounth,
+		num_mounth,supply_product_code,loss_type,loss_time,supply_area
+	</sql>
+
+	<sql id="abatorgenerated_Example_Where_Clause">
+		<iterate property="oredCriteria" conjunction="or" prepend="where" removeFirstPrepend="iterate">
+			<isEqual property="oredCriteria[].valid" compareValue="true">
+				(
+				<iterate prepend="and" property="oredCriteria[].criteriaWithoutValue" conjunction="and">
+					$oredCriteria[].criteriaWithoutValue[]$
+				</iterate>
+				<iterate prepend="and" property="oredCriteria[].criteriaWithSingleValue" conjunction="and">
+					$oredCriteria[].criteriaWithSingleValue[].condition$
+					#oredCriteria[].criteriaWithSingleValue[].value#
+				</iterate>
+				<iterate prepend="and" property="oredCriteria[].criteriaWithListValue" conjunction="and">
+					$oredCriteria[].criteriaWithListValue[].condition$
+					<iterate property="oredCriteria[].criteriaWithListValue[].values" open="(" close=")" conjunction=",">
+						#oredCriteria[].criteriaWithListValue[].values[]#
+					</iterate>
+				</iterate>
+				<iterate prepend="and" property="oredCriteria[].criteriaWithBetweenValue" conjunction="and">
+					$oredCriteria[].criteriaWithBetweenValue[].condition$
+					#oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+					#oredCriteria[].criteriaWithBetweenValue[].values[1]#
+				</iterate>
+				)
+			</isEqual>
+		</iterate>
+	</sql>
+	<select id="abatorgenerated_selectByPrimaryKey" resultMap="abatorgenerated_ItemSupplyResult" parameterClass="com.longan.biz.dataobject.ItemSupply">
+		select
+		<include refid="itemSupplyFullColumns" />
+		from item_supply where id = #id:BIGINT#
+	</select>
+	<select id="abatorgenerated_selectByExample" resultMap="abatorgenerated_ItemSupplyResult" parameterClass="com.longan.biz.dataobject.ItemSupplyExample">
+		select
+		<include refid="itemSupplyFullColumns" />
+		from item_supply
+		<isParameterPresent>
+			<include refid="item_supply.abatorgenerated_Example_Where_Clause" />
+			<isNotNull property="orderByClause">
+				order by $orderByClause$
+			</isNotNull>
+		</isParameterPresent>
+	</select>
+	<delete id="abatorgenerated_deleteByPrimaryKey" parameterClass="com.longan.biz.dataobject.ItemSupply">
+		delete from item_supply where id = #id:BIGINT#
+	</delete>
+	<delete id="abatorgenerated_deleteByExample" parameterClass="com.longan.biz.dataobject.ItemSupplyExample">
+		delete from item_supply
+		<include refid="item_supply.abatorgenerated_Example_Where_Clause" />
+	</delete>
+	<insert id="abatorgenerated_insert" parameterClass="com.longan.biz.dataobject.ItemSupply">
+		insert into item_supply (
+		<include refid="itemSupplyFullColumns" />
+		) values (#id:BIGINT#, now(), now(), #supplyTraderId:BIGINT#, #bizId:INTEGER#, #itemId:INTEGER#,
+		#itemCostPrice:INTEGER#, #priority:INTEGER#, #supplyWay:BOOLEAN#, #status:INTEGER#, #quantity:INTEGER#,
+		#warnQuantity:INTEGER#, #maxDay:INTEGER#, #numDay:INTEGER#, #maxMounth:INTEGER#, #numMounth:INTEGER#,
+		#supplyProductCode:VARCHAR#, #lossType:INTEGER#, #lossTime:INTEGER#,#supplyArea:VARCHAR#)
+		<selectKey resultClass="Long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.longan.biz.dataobject.ItemSupply">
+		update item_supply set gmt_modify = now()
+		<dynamic>
+			<isNotNull prepend="," property="supplyTraderId">
+				supply_trader_id = #supplyTraderId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="bizId">
+				biz_id = #bizId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemId">
+				item_id = #itemId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemCostPrice">
+				item_cost_price = #itemCostPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="priority">
+				priority = #priority:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="supplyWay">
+				supply_way = #supplyWay:BOOLEAN#
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="quantity">
+				quantity = #quantity:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="warnQuantity">
+				warn_quantity = #warnQuantity:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="maxDay">
+				max_day = #maxDay:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="numDay">
+				num_day = #numDay:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="maxMounth">
+				max_mounth = #maxMounth:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="numMounth">
+				num_mounth = #numMounth:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="supplyProductCode">
+				supply_product_code = #supplyProductCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="lossType">
+				loss_type = #lossType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="lossTime">
+				loss_time = #lossTime:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="supplyArea">
+				supply_area = #supplyArea:VARCHAR#
+			</isNotNull>
+		</dynamic>
+		where id = #id:BIGINT#
+	</update>
+	<select id="abatorgenerated_countByExample" parameterClass="com.longan.biz.dataobject.ItemSupplyExample"
+		resultClass="java.lang.Integer">
+		select count(*) from item_supply
+		<include refid="item_supply.abatorgenerated_Example_Where_Clause" />
+	</select>
+	<update id="abatorgenerated_updateByExampleSelective">
+		update item_supply set gmt_modify = now()
+		<dynamic>
+			<isNotNull prepend="," property="record.supplyTraderId">
+				supply_trader_id = #record.supplyTraderId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="record.bizId">
+				biz_id = #record.bizId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemId">
+				item_id = #record.itemId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.itemCostPrice">
+				item_cost_price = #record.itemCostPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.priority">
+				priority = #record.priority:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.supplyWay">
+				supply_way = #record.supplyWay:BOOLEAN#
+			</isNotNull>
+			<isNotNull prepend="," property="record.status">
+				status = #record.status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.quantity">
+				quantity = #record.quantity:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.warnQuantity">
+				warn_quantity = #record.warnQuantity:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.maxDay">
+				max_day = #record.maxDay:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.numDay">
+				num_day = #record.numDay:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.maxMounth">
+				max_mounth = #record.maxMounth:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.numMounth">
+				num_mounth = #record.numMounth:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.supplyProductCode">
+				supply_product_code = #record.supplyProductCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.lossType">
+				loss_type = #record.lossType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.lossTime">
+				loss_time = #record.lossTime:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.supplyArea">
+				supply_area = #record.supplyArea:VARCHAR#
+			</isNotNull>
+		</dynamic>
+		<isParameterPresent>
+			<include refid="item_supply.abatorgenerated_Example_Where_Clause" />
+		</isParameterPresent>
+	</update>
+
+	<select id="forUpdate" resultMap="abatorgenerated_ItemSupplyResult">
+		select
+		<include refid="itemSupplyFullColumns" />
+		from item_supply where id=#id# for update;
+	</select>
+
+	<sql id="whereConditions">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				a.id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="lessQuantity">
+				a.quantity &lt;= #lessQuantity#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="moreQuantity">
+				a.quantity &gt;= #lessQuantity#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="quantity">
+				a.quantity = #quantity#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status">
+				a.status = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="itemId">
+				a.item_id = #itemId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="supplyTraderId">
+				a.supply_trader_id = #supplyTraderId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bizId">
+				a.biz_id = #bizId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="itemType">
+				b.item_type = #itemType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="itemName">
+				b.item_name like CONCAT('%', #itemName#, '%')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="supplyType">
+				c.supply_type = #supplyType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isAsyncSupply">
+				c.is_async_supply = #isAsyncSupply#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="salesArea">
+				sales_area = #salesArea#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="itemFacePrice">
+				item_face_price = #itemFacePrice#
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+
+	<select id="queryByPage" resultMap="abatorgenerated_ItemSupplyPageResult">
+		select a.id, a.gmt_create, a.gmt_modify, a.supply_trader_id, a.biz_id, a.item_id, a.item_cost_price, a.priority,
+		a.supply_way, a.status, a.quantity, a.warn_quantity, a.max_day, a.num_day, a.max_mounth, a.num_mounth,
+		a.supply_product_code, a.loss_type, a.loss_time, a.supply_area, b.item_name, b.item_face_price, b.item_type,
+		b.sales_area, c.supply_type, c.is_async_supply from item_supply AS a INNER JOIN item AS b ON a.item_id = b.id LEFT
+		JOIN trader_info AS c ON a.supply_trader_id = c.user_id
+		<include refid="item_supply.whereConditions" />
+		ORDER BY gmt_create DESC LIMIT #startRow#,#pageSize#
+	</select>
+
+	<select id="queryByPageCount" resultClass="java.lang.Integer">
+		SELECT count(*) from item_supply AS a INNER JOIN item AS b ON a.item_id = b.id LEFT JOIN trader_info AS c ON
+		a.supply_trader_id = c.user_id
+		<include refid="item_supply.whereConditions" />
+	</select>
+
+	<update id="batchUpdateStatusItemSupply">
+		update item_supply set gmt_modify = now(),status = #status# where id in
+		<iterate property="ids" open="(" conjunction="," close=")">
+			#ids[]#
+		</iterate>
+	</update>
+</sqlMap>

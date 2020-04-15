@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/common.vm")
+	#parse("common/select.vm")
+	#parse("common/errorUtils.vm")
+	#parse("common/checkbox.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/datepicker/WdatePicker.js"></script>
+</head>
+<body>
+	$!errorMsg
+	 <div class="alert alert-info">当前位置<b class="tip"></b>价格管理<b class="tip"></b>商品调价</div>
+	<form id="form" action="itemPriceListEdit.do" method="post"  >
+		<input type="hidden" name="itemSupplyIdList" value="$!itemSupplyIdList" />
+	    <table class="table-striped table-bordered table-condensed list">
+	        <thead>
+	            <tr>
+	                <td colspan="4"><b>供货商品信息</b></td>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr>
+	                <td width="100">商品名称</td>
+	                <td width="600">
+						<font color="red">$!itemNameList</font>
+					</td>
+	                <td width="100"></td>
+	                <td width="600"></td>
+	            </tr>
+	            <tr>
+	                <td width="100">成本折扣</td>
+	                <td width="">
+						<input type="text" name="itemCostPriceDiscount"  size="20" value="$!itemPriceListForm.itemCostPriceDiscount">%
+						#getErrorMessage($errorList,"itemCostPriceDiscount")
+					</td>
+	                <td width="100">价格1折扣</td>
+	                <td width="">
+						<input  type="text" name="itemSalesPriceDiscount"  size="20" value="$!itemPriceListForm.itemSalesPriceDiscount">%
+						#getErrorMessage($errorList,"itemSalesPriceDiscount")
+					</td>
+	            </tr>	
+	            <tr>
+	                <td width="100">价格2折扣</td>
+	                <td width="">
+						<input type="text" name="itemSalesPrice2Discount"  size="20" value="$!itemPriceListForm.itemSalesPrice2Discount">%
+						#getErrorMessage($errorList,"itemSalesPrice2Discount")
+					</td>	
+	                <td width="100">价格3折扣</td>
+	                <td width="">
+						<input type="text" name="itemSalesPrice3Discount"  size="20" value="$!itemPriceListForm.itemSalesPrice3Discount">%
+						#getErrorMessage($errorList,"itemSalesPrice3Discount")
+					</td>
+	            </tr>
+	            <tr>
+	                <td width="100">价格4折扣</td>
+	                <td width="">
+						<input type="text" name="itemSalesPrice4Discount"  size="20" value="$!itemPriceListForm.itemSalesPrice4Discount">%
+						#getErrorMessage($errorList,"itemSalesPrice4Discount")
+					</td>
+	                <td width="100">单买折扣</td>
+	                <td width="">
+						<input type="text" name="itemDummyPriceDiscount"  size="20" value="$!itemPriceListForm.itemDummyPriceDiscount">%
+						#getErrorMessage($errorList,"itemDummyPriceDiscount")
+					</td>
+	            </tr>
+	            <tr>
+	                <td width="100">生效时间</td>
+	                <td width="">
+						#select($!commitTypeList,"commitType",$!itemPriceListForm.commitType) #getErrorMessage($errorList,"commitType") #getErrorMessage($errorList,"commitTime")
+						<span id="commitDateDiv" class="input-append" style="display:none">
+							<input class="Wdate"  type="text" name="commitTime" value="$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!itemPriceListForm.commitTime)" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+                        </span>
+					</td>
+	                <td width="100"></td>
+	                <td width="">
+					</td>
+	            </tr>				
+	        </tbody>
+	        <tfoot>
+	            <tr>
+	                <td colspan="4">
+	                    <input class="btn btn-inverse" id="find" type="submit" value="修改" />
+	                    <input class="btn btn-inverse" type="button" onclick="javascript: history.go(-1)" value="取消" /></td>
+	            </tr>
+	        </tfoot>		
+	    </table>
+	</form>	
+	<script>
+	jQuery(document).ready(function(){
+	 if(jQuery('#commitType').val()==2){
+	 	jQuery("#commitDateDiv").show();
+	 }
+	 jQuery('#commitType').bind('change',function(){
+	      if(this.value==2){
+	      	jQuery("#commitDateDiv").show();
+	      }else{
+		    jQuery("#commitDateDiv").hide();
+		  }
+	 });
+	 }
+	);
+	</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#parse("common/common.vm")
+<title>鼎驰科技</title>
+<link href="$!staticServer/css/login.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="$!staticServer/js/md5.js"></script>
+</head>
+<body>
+<div id="wrap" #if(!$!isProduct) style="background:url($!staticServer/img/login-bg2Test.png);" #end>
+	<div id="header"></div>
+	<div id="content-wrap">
+	<div class="space"></div>
+	<form id="loginForm" action="login.do" method="post">
+		<div class="content">
+			<input id="encodePwd" type="hidden" name="pwd">
+			<div class="field"><label>账　户：</label><input id="userName" class="username" name="name" value ="$!{loginForm.name}" type="text" /></div>
+			<div class="field"><label>密　码：</label><input id="pwd" class="password"  value="" type="password" /><br /></div>
+			<div class="field"><label>验证码：</label><input id="checkCode" class="password" style="width: 90px;" name="checkCode" maxlength="4" value="" onkeydown="LoginSubmit()"/>
+			<img title="单击换一张" style="CURSOR: hand" onclick="this.src +='1'" height="22" src="admin/checkCode.do?id={0}" align="center"><br /></div>
+			<div class="btn"><input name="" type="button" onclick="submitForm()" class="login-btn" value="" /></div>
+		</div>
+	</form>
+</div>
+<div id="footer"></div>
+</div>
+<script type="text/javascript">
+	function submitForm(){
+		var name= jQuery('#userName').val();
+		if(!name){
+			alert("用户名不能为空");
+			return;
+		}
+		
+		var checkCode= jQuery('#checkCode').val();
+		if(!checkCode){
+			alert("验证码不能为空");
+			return;
+		}
+		var pwd = jQuery('#pwd').val();
+		if(!pwd){
+			alert("密码不能为空");
+			return;
+		}
+		
+		pwd =  CryptoJS.MD5(pwd+"longan_login");
+		jQuery('#encodePwd').val(pwd);
+		jQuery('#loginForm').submit();
+	}
+	
+	function LoginSubmit(){ 
+        if (event.keyCode == 13){
+            event.keyCode = 9;
+            event.returnValue = false;
+            submitForm();
+		} 
+	} 
+</script>
+$!errorMsg
+</body>
+</html>

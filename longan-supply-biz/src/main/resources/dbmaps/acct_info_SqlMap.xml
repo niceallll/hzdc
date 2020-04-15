@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="acct_info">
+	<resultMap class="com.longan.biz.dataobject.AcctInfo" id="abatorgenerated_AcctInfoResult">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="login_id" jdbcType="VARCHAR" property="loginId" />
+		<result column="balance" jdbcType="BIGINT" property="balance" />
+		<result column="last_trade_balance" jdbcType="BIGINT" property="lastTradeBalance" />
+		<result column="gmt_create" jdbcType="DATETIME" property="gmtCreate" />
+		<result column="gmt_modify" jdbcType="DATETIME" property="gmtModify" />
+		<result column="last_trade_date" jdbcType="DATETIME" property="lastTradeDate" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="verification_code" jdbcType="VARCHAR" property="verificationCode" />
+		<result column="sales_price" jdbcType="INTEGER" property="salesPrice" />
+	</resultMap>
+	<sql id="abatorgenerated_Example_Where_Clause">
+		<iterate conjunction="or" prepend="where" property="oredCriteria"
+			removeFirstPrepend="iterate">
+			<isEqual compareValue="true" property="oredCriteria[].valid">
+				(
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithoutValue">
+					$oredCriteria[].criteriaWithoutValue[]$
+				</iterate>
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithSingleValue">
+					$oredCriteria[].criteriaWithSingleValue[].condition$
+					#oredCriteria[].criteriaWithSingleValue[].value#
+				</iterate>
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithListValue">
+					$oredCriteria[].criteriaWithListValue[].condition$
+					<iterate close=")" conjunction="," open="("
+						property="oredCriteria[].criteriaWithListValue[].values">
+						#oredCriteria[].criteriaWithListValue[].values[]#
+					</iterate>
+				</iterate>
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithBetweenValue">
+					$oredCriteria[].criteriaWithBetweenValue[].condition$
+					#oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+					#oredCriteria[].criteriaWithBetweenValue[].values[1]#
+				</iterate>
+				)
+			</isEqual>
+		</iterate>
+	</sql>
+	<select id="abatorgenerated_selectByPrimaryKey" parameterClass="com.longan.biz.dataobject.AcctInfo"
+		resultMap="abatorgenerated_AcctInfoResult">
+		select id, user_id, login_id, balance, last_trade_balance,  
+		gmt_create,	gmt_modify, last_trade_date,
+		status, verification_code, sales_price
+		from acct_info
+		where id = #id:BIGINT#
+	</select>
+	<select id="abatorgenerated_selectByExample" parameterClass="com.longan.biz.dataobject.AcctInfoExample"
+		resultMap="abatorgenerated_AcctInfoResult">
+		select id,user_id, login_id, balance, last_trade_balance,  
+		gmt_create,	gmt_modify, last_trade_date,
+		status, verification_code, sales_price
+		from acct_info
+		<isParameterPresent>
+			<include refid="acct_info.abatorgenerated_Example_Where_Clause" />
+			<isNotNull property="orderByClause">
+				order by $orderByClause$
+			</isNotNull>
+		</isParameterPresent>
+	</select>
+	<delete id="abatorgenerated_deleteByPrimaryKey" parameterClass="com.longan.biz.dataobject.AcctInfo">
+		delete from acct_info
+		where id = #id:BIGINT#
+	</delete>
+	<delete id="abatorgenerated_deleteByExample" parameterClass="com.longan.biz.dataobject.AcctInfoExample">
+		delete from acct_info
+		<include refid="acct_info.abatorgenerated_Example_Where_Clause" />
+	</delete>
+	<insert id="abatorgenerated_insert" parameterClass="com.longan.biz.dataobject.AcctInfo">
+		insert into acct_info (id, user_id, login_id, balance, last_trade_balance,  
+		gmt_create, gmt_modify,
+		last_trade_date, status, verification_code, sales_price)
+		values (#id:BIGINT#,#userId:BIGINT#, #loginId:VARCHAR#, #balance:BIGINT#,  
+		#lastTradeBalance:BIGINT#, 
+		now(), now(), #lastTradeDate:DATETIME#, #status:INTEGER#,
+		#verificationCode:VARCHAR#, #salesPrice:INTEGER#)
+      <selectKey resultClass="Long" keyProperty="id">
+	    SELECT LAST_INSERT_ID() 
+      </selectKey>
+	</insert>
+
+	<update id="abatorgenerated_updateByPrimaryKeySelective"
+		parameterClass="com.longan.biz.dataobject.AcctInfo">
+		update acct_info
+		set gmt_modify = now()
+		<dynamic>
+			<isNotNull prepend="," property="loginId">
+				login_id = #loginId:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="userId">
+				user_id = #userId:BIGINT#
+			</isNotNull>			
+			<isNotNull prepend="," property="balance">
+				balance = #balance:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="lastTradeBalance">
+				last_trade_balance = #lastTradeBalance:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="lastTradeDate">
+				last_trade_date = #lastTradeDate:DATETIME#
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="verificationCode">
+				verification_code = #verificationCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="salesPrice">
+				sales_price = #salesPrice:INTEGER#
+			</isNotNull>
+		</dynamic>
+		where id = #id:BIGINT#
+	</update>
+	<select id="abatorgenerated_countByExample" parameterClass="com.longan.biz.dataobject.AcctInfoExample"
+		resultClass="java.lang.Integer">
+		select count(*) from acct_info
+		<include refid="acct_info.abatorgenerated_Example_Where_Clause" />
+	</select>
+	<update id="abatorgenerated_updateByExampleSelective">
+		update acct_info
+		set gmt_modify = now()
+		<dynamic>
+			<isNotEmpty prepend="," property="record.loginId">
+				login_id = #record.loginId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="userId">
+				user_id = #userId:BIGINT#
+			</isNotEmpty>				
+			<isNotEmpty prepend="," property="record.balance">
+				balance = #record.balance:BIGINT#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="record.lastTradeBalance">
+				last_trade_balance = #record.lastTradeBalance:BIGINT#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="record.lastTradeDate">
+				last_trade_date = #record.lastTradeDate:DATETIME#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="record.status">
+				status = #record.status:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="record.verificationCode">
+				verification_code = #record.verificationCode:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="record.salesPrice">
+				sales_price = #record.salesPrice:INTEGER#
+			</isNotEmpty>
+		</dynamic>
+		<isParameterPresent>
+			<include refid="acct_info.abatorgenerated_Example_Where_Clause" />
+		</isParameterPresent>
+	</update>
+	
+    <select id="forUpdateOneRow" resultMap="abatorgenerated_AcctInfoResult">
+		select id,user_id, login_id, balance, last_trade_balance, 
+		gmt_create, gmt_modify, last_trade_date,
+		status, verification_code, sales_price
+		from
+		acct_info
+		where id = #id# for update;
+	</select>
+</sqlMap>

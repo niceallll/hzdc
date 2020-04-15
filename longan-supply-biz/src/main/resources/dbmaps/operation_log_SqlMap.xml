@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="operation_log">
+	<resultMap id="abatorgenerated_OperationLogResult" class="com.longan.biz.dataobject.OperationLog">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+		<result column="biz_id" property="bizId" jdbcType="INTEGER" />
+		<result column="oper_type" property="operType" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="abatorgenerated_insert" parameterClass="com.longan.biz.dataobject.OperationLog">
+		insert into operation_log (id, gmt_create, user_id, user_name, module_name, biz_id, oper_type, description, login_ip)
+		values (#id:BIGINT#, now(), #userId:BIGINT#, #userName:VARCHAR#, #moduleName:VARCHAR#, #bizId:INTEGER#,
+		#operType:INTEGER#, #description:VARCHAR#, #loginIp:VARCHAR#)
+		<selectKey resultClass="Long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<sql id="whereConditions">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="startGmtCreate">
+				gmt_create &gt;= #startGmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endGmtCreate">
+				gmt_create &lt;= #endGmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userId">
+				user_id = #userId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bizId">
+				biz_id = #bizId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="moduleName">
+				module_name like CONCAT('%', #moduleName#, '%')
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+
+	<select id="queryByPage" resultMap="abatorgenerated_OperationLogResult">
+		select id, gmt_create, user_id, user_name, module_name, biz_id, oper_type, description, login_ip FROM operation_log
+		INNER JOIN (SELECT id FROM operation_log
+		<include refid="operation_log.whereConditions" />
+		ORDER BY gmt_create DESC LIMIT #startRow#,#pageSize#) as page using (id)
+	</select>
+
+	<select id="queryByPageCount" resultClass="java.lang.Integer">
+		SELECT count(*) FROM operation_log
+		<include refid="operation_log.whereConditions" />
+	</select>
+</sqlMap>

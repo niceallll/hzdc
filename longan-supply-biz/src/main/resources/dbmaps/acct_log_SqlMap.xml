@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="acct_log">
+	<resultMap class="com.longan.biz.dataobject.AcctLog" id="abatorgenerated_AcctLogResult">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="gmt_create" jdbcType="DATETIME" property="gmtCreate" />
+		<result column="gmt_modify" jdbcType="DATETIME" property="gmtModify" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="acct_id" jdbcType="BIGINT" property="acctId" />
+		<result column="bill_id" jdbcType="BIGINT" property="billId" />
+		<result column="bill_type" jdbcType="INTEGER" property="billType" />
+		<result column="biz_order_id" jdbcType="BIGINT" property="bizOrderId" />
+		<result column="biz_id" jdbcType="INTEGER" property="bizId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="trade_type" jdbcType="INTEGER" property="tradeType" />
+		<result column="amt_in" jdbcType="BIGINT" property="amtIn" />
+		<result column="amt_out" jdbcType="BIGINT" property="amtOut" />
+		<result column="amt_in_ex" jdbcType="BIGINT" property="amtInEx" />
+		<result column="amt_out_ex" jdbcType="BIGINT" property="amtOutEx" />
+		<result column="amt_balance" jdbcType="BIGINT" property="amtBalance" />
+		<result column="channel" jdbcType="INTEGER" property="channel" />
+	</resultMap>
+
+	<sql id="acctLogQueryColumns">
+		a.id, a.gmt_create, a.gmt_modify, a.user_id, a.acct_id, a.bill_id, a.bill_type, a.biz_order_id, a.biz_id,
+		a.status, a.trade_type, a.amt_in, a.amt_out, a.amt_in_ex, a.amt_out_ex, a.amt_balance, a.channel,b.item_id,
+		b.item_name, b.upstream_id
+	</sql>
+
+	<sql id="abatorgenerated_Example_Where_Clause">
+		<iterate conjunction="or" prepend="where" property="oredCriteria" removeFirstPrepend="iterate">
+			<isEqual compareValue="true" property="oredCriteria[].valid">
+				(
+				<iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithoutValue">
+					$oredCriteria[].criteriaWithoutValue[]$
+				</iterate>
+				<iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithSingleValue">
+					$oredCriteria[].criteriaWithSingleValue[].condition$
+					#oredCriteria[].criteriaWithSingleValue[].value#
+				</iterate>
+				<iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithListValue">
+					$oredCriteria[].criteriaWithListValue[].condition$
+					<iterate close=")" conjunction="," open="(" property="oredCriteria[].criteriaWithListValue[].values">
+						#oredCriteria[].criteriaWithListValue[].values[]#
+					</iterate>
+				</iterate>
+				<iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithBetweenValue">
+					$oredCriteria[].criteriaWithBetweenValue[].condition$
+					#oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+					#oredCriteria[].criteriaWithBetweenValue[].values[1]#
+				</iterate>
+				)
+			</isEqual>
+		</iterate>
+	</sql>
+	<select id="abatorgenerated_selectByPrimaryKey" parameterClass="com.longan.biz.dataobject.AcctLog" resultMap="abatorgenerated_AcctLogResult">
+		select id, gmt_create, gmt_modify, user_id, acct_id, bill_id, bill_type, biz_order_id, biz_id, status, trade_type,
+		amt_in, amt_out,amt_in_ex, amt_out_ex, amt_balance, channel from acct_log where id = #id:BIGINT#
+	</select>
+	<select id="abatorgenerated_selectByExample" parameterClass="com.longan.biz.dataobject.AcctLogExample"
+		resultMap="abatorgenerated_AcctLogResult">
+		select id, gmt_create, gmt_modify, user_id, acct_id, bill_id, bill_type, biz_order_id, biz_id, status, trade_type,
+		amt_in, amt_out,amt_in_ex, amt_out_ex, amt_balance, channel from acct_log
+		<isParameterPresent>
+			<include refid="acct_log.abatorgenerated_Example_Where_Clause" />
+			<isNotNull property="orderByClause">
+				order by $orderByClause$
+			</isNotNull>
+		</isParameterPresent>
+	</select>
+	<delete id="abatorgenerated_deleteByPrimaryKey" parameterClass="com.longan.biz.dataobject.AcctLog">
+		delete from acct_log
+		where id = #id:BIGINT#
+	</delete>
+	<delete id="abatorgenerated_deleteByExample" parameterClass="com.longan.biz.dataobject.AcctLogExample">
+		delete from acct_log
+		<include refid="acct_log.abatorgenerated_Example_Where_Clause" />
+	</delete>
+	<insert id="abatorgenerated_insert" parameterClass="com.longan.biz.dataobject.AcctLog">
+		insert into acct_log (id, gmt_create, gmt_modify, user_id, acct_id, bill_id, bill_type, biz_order_id, biz_id, status,
+		trade_type, amt_in, amt_out,amt_in_ex, amt_out_ex, amt_balance, channel) values (#id:BIGINT#, now(), now(),
+		#userId:BIGINT#, #acctId:BIGINT#, #billId:BIGINT#, #billType:INTEGER#, #bizOrderId:BIGINT#, #bizId:INTEGER#,
+		#status:INTEGER#, #tradeType:INTEGER#, #amtIn:BIGINT#, #amtOut:BIGINT#,#amtInEx:BIGINT#, #amtOutEx:BIGINT#,
+		#amtBalance:BIGINT#, #channel:INTEGER#)
+		<selectKey resultClass="Long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.longan.biz.dataobject.AcctLog">
+		update acct_log set gmt_modify = now()
+		<dynamic>
+			<isNotNull prepend="," property="userId">
+				user_id = #userId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="acctId">
+				acct_id = #acctId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="billId">
+				bill_id = #billId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="billType">
+				bill_type = #billType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="bizOrderId">
+				biz_order_id = #bizOrderId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="bizId">
+				biz_id = #bizId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeType">
+				trade_type = #tradeType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="amtIn">
+				amt_in = #amtIn:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="amtOut">
+				amt_out = #amtOut:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="amtInEx">
+				amt_in_ex = #amtInEx:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="amtOutEx">
+				amt_out_ex = #amtOutEx:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="amtBalance">
+				amt_balance = #amtBalance:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="channel">
+				channel = #channel:INTEGER#
+			</isNotNull>
+		</dynamic>
+		where id = #id:BIGINT#
+	</update>
+	<select id="abatorgenerated_countByExample" parameterClass="com.longan.biz.dataobject.AcctLogExample"
+		resultClass="java.lang.Integer">
+		select count(*) from acct_log
+		<include refid="acct_log.abatorgenerated_Example_Where_Clause" />
+	</select>
+	<update id="abatorgenerated_updateByExampleSelective">
+		update acct_log set gmt_modify = now()
+		<dynamic>
+			<isNotNull prepend="," property="record.userId">
+				user_id = #record.userId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="record.acctId">
+				acct_id = #record.acctId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="billId">
+				bill_id = #billId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="billType">
+				bill_type = #billType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.bizOrderId">
+				biz_order_id = #record.bizOrderId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="record.bizId">
+				biz_id = #record.bizId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.status">
+				status = #record.status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.tradeType">
+				trade_type = #record.tradeType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="record.amtIn">
+				amt_in = #record.amtIn:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="record.amtOut">
+				amt_out = #record.amtOut:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="record.amtInEx">
+				amt_in_ex = #record.amtInEx:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="record.amtOutEx">
+				amt_out_ex = #record.amtOutEx:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="record.amtBalance">
+				amt_balance = #record.amtBalance:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="record.channel">
+				channel = #record.channel:INTEGER#
+			</isNotNull>
+		</dynamic>
+		<isParameterPresent>
+			<include refid="acct_log.abatorgenerated_Example_Where_Clause" />
+		</isParameterPresent>
+	</update>
+
+	<sql id="whereConditions">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bizId">
+				biz_id = #bizId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="acctId">
+				acct_id = #acctId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userId">
+				user_id = #userId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="billType">
+				bill_type = #billType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="billId">
+				bill_id = #billId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="tradeType">
+				trade_type = #tradeType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startGmtCreate">
+				gmt_create &gt;= #startGmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endGmtCreate">
+				gmt_create &lt;= #endGmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bizOrderId">
+				biz_order_id = #bizOrderId#
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+
+	<select id="queryByPage" resultMap="abatorgenerated_AcctLogResult">
+		select id, gmt_create, gmt_modify, user_id, acct_id, bill_id, bill_type, biz_order_id, biz_id, status, trade_type,
+		amt_in, amt_out, amt_in_ex, amt_out_ex,amt_balance, channel FROM acct_log INNER JOIN (SELECT id FROM acct_log
+		<include refid="acct_log.whereConditions" />
+		ORDER BY gmt_create DESC LIMIT #startRow#,#pageSize#) as page using (id)
+	</select>
+	<select id="queryByPageCount" resultClass="java.lang.Integer">
+		SELECT count(*) FROM acct_log
+		<include refid="acct_log.whereConditions" />
+	</select>
+
+	<resultMap class="com.longan.biz.dataobject.AcctLog" id="abatorgenerated_AcctLogResults">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="gmt_create" jdbcType="DATETIME" property="gmtCreate" />
+		<result column="gmt_modify" jdbcType="DATETIME" property="gmtModify" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="acct_id" jdbcType="BIGINT" property="acctId" />
+		<result column="bill_id" jdbcType="BIGINT" property="billId" />
+		<result column="bill_type" jdbcType="INTEGER" property="billType" />
+		<result column="biz_order_id" jdbcType="BIGINT" property="bizOrderId" />
+		<result column="biz_id" jdbcType="INTEGER" property="bizId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="trade_type" jdbcType="INTEGER" property="tradeType" />
+		<result column="amt_in" jdbcType="BIGINT" property="amtIn" />
+		<result column="amt_out" jdbcType="BIGINT" property="amtOut" />
+		<result column="amt_in_ex" jdbcType="BIGINT" property="amtInEx" />
+		<result column="amt_out_ex" jdbcType="BIGINT" property="amtOutEx" />
+		<result column="amt_balance" jdbcType="BIGINT" property="amtBalance" />
+		<result column="channel" jdbcType="INTEGER" property="channel" />
+		<result column="item_id" jdbcType="BIGINT" property="itemId" />
+		<result column="item_name" jdbcType="varchar" property="itemName" />
+		<result column="upstream_id" jdbcType="varchar" property="upStreamId" />
+	</resultMap>
+	<sql id="choiceConditions">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				a.id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bizId">
+				a.biz_id = #bizId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="acctId">
+				a.acct_id = #acctId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userId">
+				a.user_id = #userId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="billType">
+				a.bill_type = #billType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="billId">
+				a.bill_id = #billId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="tradeType">
+				a.trade_type = #tradeType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startGmtCreate">
+				a.gmt_create &gt;= #startGmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endGmtCreate">
+				a.gmt_create &lt;= #endGmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bizOrderId">
+				a.biz_order_id = #bizOrderId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="upStreamId">
+				b.upstream_id = #upStreamId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="itemId">
+				b.item_id = #itemId#
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+
+	<select id="queryForPage" resultMap="abatorgenerated_AcctLogResults">
+		select
+		<include refid="acct_log.acctLogQueryColumns" />
+		FROM acct_log a left join biz_order b on a.biz_order_id = b.id
+		<include refid="acct_log.choiceConditions" />
+		ORDER BY a.gmt_create DESC LIMIT #startRow#,#pageSize#
+	</select>
+	<select id="queryForPageCount" resultClass="java.lang.Integer">
+		SELECT count(*) FROM acct_log a left join biz_order b on a.biz_order_id = b.id
+		<include refid="acct_log.choiceConditions" />
+	</select>
+
+	<select id="queryByExport" resultMap="abatorgenerated_AcctLogResults">
+		select
+		<include refid="acct_log.acctLogQueryColumns" />
+		FROM acct_log a left join biz_order b on a.biz_order_id = b.id
+		<include refid="acct_log.choiceConditions" />
+		ORDER BY a.gmt_create
+	</select>
+	<select id="selectByExport" resultMap="abatorgenerated_AcctLogResults">
+		select
+		<include refid="acct_log.acctLogQueryColumns" />
+		FROM acct_log a left join biz_order b on a.biz_order_id = b.id
+		<include refid="acct_log.choiceConditions" />
+		ORDER BY a.gmt_create DESC LIMIT #startRow#,#pageSize#
+	</select>
+	<select id="countByExport" resultClass="java.lang.Integer">
+		select count(*) FROM acct_log a left join biz_order b on a.biz_order_id = b.id
+		<include refid="acct_log.choiceConditions" />
+	</select>
+
+	<select id="querySumAmount" resultClass="com.longan.biz.sumobject.AcctLogAmount">
+		select sum(amt_in) iamt,sum(amt_out) oamt from acct_log
+		<include refid="acct_log.whereConditions" />
+	</select>
+</sqlMap>

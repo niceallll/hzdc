@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="bizOrderDAO" class="com.longan.biz.dao.impl.BizOrderDAOImpl" />
+	<bean id="itemDAO" class="com.longan.biz.dao.impl.ItemDAOImpl" />
+	<bean id="acctInfoDAO" class="com.longan.biz.dao.impl.AcctInfoDAOImpl" />
+	<bean id="acctLogDAO" class="com.longan.biz.dao.impl.AcctLogDAOImpl" />
+	<bean id="commitLimitDAO" class="com.longan.biz.dao.impl.CommitLimitDAOImpl" />
+	<bean id="commitPayDAO" class="com.longan.biz.dao.impl.CommitPayDAOImpl" />
+	<bean id="chargeOrderDAO" class="com.longan.biz.dao.impl.ChargeOrderDAOImpl" />
+	<bean id="payOrderDAO" class="com.longan.biz.dao.impl.PayOrderDAOImpl" />
+	<bean id="refundOrderDAO" class="com.longan.biz.dao.impl.RefundOrderDAOImpl" />
+	<bean id="userInfoDAO" class="com.longan.biz.dao.impl.UserInfoDAOImpl" />
+	<bean id="stockDAO" class="com.longan.biz.dao.impl.StockDAOImpl" />
+	<bean id="operationInfoDAOImpl" class="com.longan.biz.dao.impl.OperationInfoDAOImpl" />
+	<bean id="operationRoleRelationDAOImpl" class="com.longan.biz.dao.impl.OperationRoleRelationDAOImpl" />
+	<bean id="roleInfoDAOImpl" class="com.longan.biz.dao.impl.RoleInfoDAOImpl" />
+	<bean id="userRoleRelationDAOImpl" class="com.longan.biz.dao.impl.UserRoleRelationDAOImpl" />
+	<bean id="stockLogDAO" class="com.longan.biz.dao.impl.StockLogDAOImpl" />
+	<bean id="itemSupplyDAO" class="com.longan.biz.dao.impl.ItemSupplyDAOImpl" />
+	<bean id="commitStockDAO" class="com.longan.biz.dao.impl.CommitStockDAOImpl" />
+	<bean id="mobileBelongDAO" class="com.longan.biz.dao.impl.MobileBelongDAOImpl" />
+	<bean id="mobileQblibDAO" class="com.longan.biz.dao.impl.MobileQblibDAOImpl" />
+	<bean id="phoneQblibDAO" class="com.longan.biz.dao.impl.PhoneQblibDAOImpl" />
+	<bean id="areaInfoDAO" class="com.longan.biz.dao.impl.AreaInfoDAOImpl" />
+	<bean id="traderInfoDAO" class="com.longan.biz.dao.impl.TraderInfoDAOImpl" />
+	<bean id="operationLogDAO" class="com.longan.biz.dao.impl.OperationLogDAOImpl" />
+	<bean id="taskDAO" class="com.longan.biz.dao.impl.TaskDAOImpl" />
+	<bean id="exportDAO" class="com.longan.biz.dao.impl.ExportDAOImpl" />
+	<bean id="itemPriceDAO" class="com.longan.biz.dao.impl.ItemPriceDAOImpl" />
+	<bean id="commitOperationRoleRelationDao" class="com.longan.biz.dao.impl.CommitOperationRoleRelationDaoImpl" />
+	<bean id="commitUserRoleRelationDao" class="com.longan.biz.dao.impl.CommitUserRoleRelationDaoImpl" />
+	<bean id="supplyOrderDAO" class="com.longan.biz.dao.impl.SupplyOrderDAOImpl" />
+	<bean id="bulkOrderDAO" class="com.longan.biz.dao.impl.BulkOrderDAOImpl" />
+	<bean id="cashOrderDAO" class="com.longan.biz.dao.impl.CashOrderDAOImpl" />
+	<bean id="blackListDAO" class="com.longan.biz.dao.impl.BlackListDAOImpl" />
+	<bean id="itemSalesDAO" class="com.longan.biz.dao.impl.ItemSalesDAOImpl" />
+	<bean id="supplyBatchDAO" class="com.longan.biz.dao.impl.SupplyBatchDAOImpl" />
+	<bean id="smsOrderDAO" class="com.longan.biz.dao.impl.SmsOrderDAOImpl" />
+	<bean id="smsSupplyDAO" class="com.longan.biz.dao.impl.SmsSupplyDAOImpl" />
+	<bean id="smsNotifyDAO" class="com.longan.biz.dao.impl.SmsNotifyDAOImpl" />
+	<bean id="manualLogDAO" class="com.longan.biz.dao.impl.ManualLogDAOImpl" />
+	<bean id="manualOrderDAO" class="com.longan.biz.dao.impl.ManualOrderDAOImpl" />
+
+	<!-- query -->
+	<bean id="queryBizOrderDAO" class="com.longan.biz.dao.impl.QueryBizOrderDAOImpl" />
+	<bean id="queryAcctLogDAO" class="com.longan.biz.dao.impl.QueryAcctLogDAOImpl" />
+	<bean id="queryStockDAO" class="com.longan.biz.dao.impl.QueryStockDAOImpl" />
+	<bean id="queryPayOrderDAO" class="com.longan.biz.dao.impl.QueryPayOrderDAOImpl" />
+	
+	<!-- special -->
+	<bean id="acctLogSDao" class="com.hzdc.biz.dao.impl.AcctLogSDaoImpl" />
+	<bean id="bizOrderSDao" class="com.hzdc.biz.dao.impl.BizOrderSDaoImpl" />
+	<bean id="chargeOrderSDao" class="com.hzdc.biz.dao.impl.ChargeOrderSDaoImpl" />
+	<bean id="payOrderSDao" class="com.hzdc.biz.dao.impl.PayOrderSDaoImpl" />
+	<bean id="supplyOrderSDao" class="com.hzdc.biz.dao.impl.SupplyOrderSDaoImpl" />
+
+	<bean id="pddOrderDao" class="com.longan.biz.dao.impl.PddOrderDAOImpl"/>
+</beans>

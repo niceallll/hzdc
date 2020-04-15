@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="biz_order_hzdc">
+	<resultMap class="com.longan.biz.dataobject.BizOrder" id="BizOrderResult">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="gmt_create" property="gmtCreate" />
+		<result column="gmt_modify" property="gmtModify" />
+		<result column="gmt_notify" property="gmtNotify" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="pay_order_id" jdbcType="BIGINT" property="payOrderId" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="amount" jdbcType="BIGINT" property="amount" />
+		<result column="amount_dummy" jdbcType="BIGINT" property="amountDummy" />
+		<result column="amt" jdbcType="INTEGER" property="amt" />
+		<result column="biz_id" jdbcType="INTEGER" property="bizId" />
+		<result column="item_id" jdbcType="INTEGER" property="itemId" />
+		<result column="item_name" jdbcType="VARCHAR" property="itemName" />
+		<result column="item_price" jdbcType="INTEGER" property="itemPrice" />
+		<result column="item_face_price" jdbcType="INTEGER" property="itemFacePrice" />
+		<result column="item_category_id" jdbcType="INTEGER" property="itemCategoryId" />
+		<result column="item_uid" jdbcType="VARCHAR" property="itemUid" />
+		<result column="item_card" jdbcType="VARCHAR" property="itemCard" />
+		<result column="item_pos_id" jdbcType="VARCHAR" property="itemPosId" />
+		<result column="item_pc_id" jdbcType="VARCHAR" property="itemPcId" />
+		<result column="item_card_pwd" jdbcType="VARCHAR" property="itemCardPwd" />
+		<result column="item_supply_id" jdbcType="BIGINT" property="itemSupplyId" />
+		<result column="item_size" jdbcType="INTEGER" property="itemSize" />
+		<result column="stock_id" jdbcType="BIGINT" property="stockId" />
+		<result column="lock_oper_id" jdbcType="BIGINT" property="lockOperId" />
+		<result column="deal_oper_id" jdbcType="BIGINT" property="dealOperId" />
+		<result column="channel" jdbcType="INTEGER" property="channel" />
+		<result column="upstream_id" jdbcType="VARCHAR" property="upstreamId" />
+		<result column="upstream_name" jdbcType="VARCHAR" property="upstreamName" />
+		<result column="upstream_serialno" jdbcType="VARCHAR" property="upstreamSerialno" />
+		<result column="upstream_date" property="upstreamDate" />
+		<result column="upstream_memo" jdbcType="VARCHAR" property="upstreamMemo" />
+		<result column="downstream_id" jdbcType="VARCHAR" property="downstreamId" />
+		<result column="downstream_name" jdbcType="VARCHAR" property="downstreamName" />
+		<result column="downstream_date" property="downstreamDate" />
+		<result column="downstream_serialno" jdbcType="VARCHAR" property="downstreamSerialno" />
+		<result column="downstream_notes" jdbcType="VARCHAR" property="downstreamNotes" />
+		<result column="memo" jdbcType="VARCHAR" property="memo" />
+		<result column="cost_time" property="costTime" />
+		<result column="supply_type" property="supplyType" />
+		<result column="repeat_type" property="repeatType" />
+		<result column="manual_type" property="manualType" />
+		<result column="downstream_supply_way" property="downstreamSupplyWay" />
+		<result column="item_cost_price" property="itemCostPrice" />
+		<result column="carrier_type" property="carrierType" />
+		<result column="province_code" property="provinceCode" />
+		<result column="actual_cost" property="actualCost" />
+		<result column="combine_type" property="combineType" jdbcType="INTEGER" />
+		<result column="combine_count" property="combineCount" jdbcType="INTEGER" />
+		<result column="supply_count" property="supplyCount" />
+		<result column="supply_filter_index" property="supplyFilterIndex" />
+		<result column="extend" jdbcType="VARCHAR" property="extend" />
+	</resultMap>
+
+	<sql id="bizOrderFullColumns">
+		id, gmt_create, gmt_modify, gmt_notify, status, notify_status, pay_order_id, user_id, amount, amount_dummy,
+		amt, biz_id, item_id, item_name, item_price, item_face_price, item_category_id, item_uid, item_card, item_pos_id,
+		item_pc_id, item_card_pwd, item_supply_id,item_size,stock_id,lock_oper_id,deal_oper_id, channel, upstream_id,
+		upstream_name, upstream_serialno, upstream_date, upstream_memo, downstream_id, downstream_name, downstream_date,
+		downstream_serialno, downstream_notes, memo, cost_time, supply_type, repeat_type, manual_type, downstream_supply_way,
+		item_cost_price, carrier_type, province_code, actual_cost, combine_type, combine_count, supply_count,
+		supply_filter_index, extend
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterClass="com.longan.biz.dataobject.BizOrder" resultMap="BizOrderResult">
+		select
+		<include refid="biz_order_hzdc.bizOrderFullColumns" />
+		from biz_order where id = #id:BIGINT#
+	</select>
+	<insert id="insert" parameterClass="com.longan.biz.dataobject.BizOrder">
+		insert into biz_order (
+		<include refid="biz_order_hzdc.bizOrderFullColumns" />
+		) values (#id:BIGINT#, #gmtCreate:DATETIME#, #gmtModify:DATETIME#, #gmtNotify:DATETIME#, #status:INTEGER#,
+		#notifyStatus:INTEGER#, #payOrderId:BIGINT#, #userId:BIGINT#, #amount:BIGINT#, #amountDummy:BIGINT#, #amt:INTEGER#,
+		#bizId:INTEGER#, #itemId:INTEGER#, #itemName:VARCHAR#, #itemPrice:INTEGER#, #itemFacePrice:INTEGER#,
+		#itemCategoryId:INTEGER#, #itemUid:VARCHAR#, #itemCard:VARCHAR#, #itemPosId:VARCHAR#, #itemPcId:VARCHAR#,
+		#itemCardPwd:VARCHAR#, #itemSupplyId:BIGINT#, #itemSize:INTEGER#, #stockId:BIGINT#, #lockOperId:BIGINT#,
+		#dealOperId:BIGINT#, #channel:INTEGER#, #upstreamId:VARCHAR#, #upstreamName:VARCHAR#, #upstreamSerialno:VARCHAR#,
+		#upstreamDate:DATETIME#, #upstreamMemo:VARCHAR#, #downstreamId:VARCHAR#, #downstreamName:VARCHAR#,
+		#downstreamDate:DATETIME#, #downstreamSerialno:VARCHAR#, #downstreamNotes:VARCHAR#, #memo:VARCHAR#,#costTime:INTEGER#,
+		#supplyType:INTEGER#, #repeatType:INTEGER#, #manualType:INTEGER#, #downstreamSupplyWay:INTEGER#,
+		#itemCostPrice:INTEGER#, #carrierType:INTEGER#, #provinceCode:CHAR#, #actualCost:INTEGER#, #combineType:INTEGER#,
+		#combineCount:INTEGER#, #supplyCount:INTEGER#, #supplyFilterIndex:INTEGER#, #extend:VARCHAR#)
+		<selectKey resultClass="Long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterClass="com.longan.biz.dataobject.BizOrder">
+		update biz_order set gmt_modify = #gmtModify:DATETIME#
+		<dynamic>
+			<isNotNull prepend="," property="gmtNotify">
+				gmt_notify = #gmtNotify:DATETIME#
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="payOrderId">
+				pay_order_id = #payOrderId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="userId">
+				user_id = #userId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="amount">
+				amount = #amount:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="amountDummy">
+				amount_dummy = #amountDummy:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="amt">
+				amt = #amt:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="bizId">
+				biz_id = #bizId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemId">
+				item_id = #itemId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemName">
+				item_name = #itemName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemPrice">
+				item_price = #itemPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemFacePrice">
+				item_face_price = #itemFacePrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemCategoryId">
+				item_category_id = #itemCategoryId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemUid">
+				item_uid = #itemUid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemCard">
+				item_card = #itemCard:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemPosId">
+				item_pos_id = #itemPosId:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemPcId">
+				item_pc_id = #itemPcId:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemCardPwd">
+				item_card_pwd = #itemCardPwd:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemSupplyId">
+				item_supply_id = #itemSupplyId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="itemSize">
+				item_size = #itemSize:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="stockId">
+				stock_id = #stockId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="lockOperId">
+				lock_oper_id = #lockOperId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="dealOperId">
+				deal_oper_id = #dealOperId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="channel">
+				channel = #channel:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="upstreamId">
+				upstream_id = #upstreamId:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="upstreamName">
+				upstream_name = #upstreamName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="upstreamSerialno">
+				upstream_serialno = #upstreamSerialno:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="upstreamDate">
+				upstream_date = #upstreamDate:DATETIME#
+			</isNotNull>
+			<isNotNull prepend="," property="upstreamMemo">
+				upstream_memo = #upstreamMemo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="downstreamId">
+				downstream_id = #downstreamId:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="downstreamName">
+				downstream_name = #downstreamName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="downstreamDate">
+				downstream_date = #downstreamDate:DATETIME#
+			</isNotNull>
+			<isNotNull prepend="," property="downstreamSerialno">
+				downstream_serialno = #downstreamSerialno:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="downstreamNotes">
+				downstream_notes = #downstreamNotes:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="memo">
+				memo = #memo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="costTime">
+				cost_time = #costTime:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="supplyType">
+				supply_type = #supplyType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="repeatType">
+				repeat_type = #repeatType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="manualType">
+				manual_type = #manualType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="downstreamSupplyWay">
+				downstream_supply_way = #downstreamSupplyWay:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemCostPrice">
+				item_cost_price = #itemCostPrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="carrierType">
+				carrier_type = #carrierType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="provinceCode">
+				province_code = #provinceCode:CHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="actualCost">
+				actual_cost = #actualCost:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="combineType">
+				combine_type = #combineType:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="combineCount">
+				combine_count = #combineCount:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="supplyCount">
+				supply_count = #supplyCount:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="supplyFilterIndex">
+				supply_filter_index = #supplyFilterIndex:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="extend">
+				extend = #extend:VARCHAR#
+			</isNotNull>
+		</dynamic>
+		where id = #id:BIGINT#
+	</update>
+</sqlMap>

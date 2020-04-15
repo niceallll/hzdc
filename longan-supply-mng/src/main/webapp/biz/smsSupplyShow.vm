@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/select.vm")
+	#parse("common/pagination.vm")
+	#parse("common/common.vm")
+	
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/jquery.cookie.js"></script>
+</head>
+<body>
+<font color="#FF0000">$!errorMsg</font>
+<div class="alert alert-info">当前位置<b class="tip"></b>$!bizName<b class="tip"></b>供货单详情</div>
+<table class="table table-striped table-bordered table-condensed list">
+    <thead><tr><td colspan="4"><b>供货单详情</b></td></tr></thead>
+    <tbody>
+   		 <tr>
+			<td width="100">供货单号</td>
+            <td width="350">$!smsSupply.id</td>
+            <td width="100">订单号</td>
+            <td width="350">$!smsSupply.bizOrderId</td>
+        </tr>
+        <tr>
+            <td width="100">上游流水号 </td>
+            <td width="350">$!smsSupply.upstreamSerialno</td>
+            <td width="100">客户手机号</td>
+            <td width="350">$!smsSupply.itemUid</td>
+        </tr>
+        <tr>
+            <td width="100">交易金额</td>
+            <td width="350">$!smsSupply.amountDesc</td>
+            <td width="100">交易时间 </td>
+            <td width="350">$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!smsSupply.gmtCreate)</td>
+        </tr>
+        <tr>
+            <td width="100">供货单状态</td>
+            <td width="350">$!smsSupply.supplyStatusDesc</td>
+            <td width="100">短信条数</td>
+            <td width="350">$!smsSupply.count</td>
+        </tr>
+        <tr>
+            <td width="100">供货摘要</td>
+            <td width="350">$!smsSupply.upstreamMemo</td>
+            <td width="100">上游编号</td>
+            <td width="350">$!smsSupply.supplyTraderId</td>
+        </tr>
+        <tr>
+            <td width="100">成本金额</td>
+            <td width="350">$!smsSupply.costPriceDesc</td>
+            <td width="100">短信内容</td>
+            <td width="350">$!smsSupply.text</td>
+        </tr>
+    </tbody>
+</table>
+</body>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="task">
+	<resultMap id="taskResult" class="com.longan.biz.dataobject.Task">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="gmt_create" property="gmtCreate" />
+		<result column="gmt_modify" property="gmtModify" />
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="instance" property="instance" />
+		<result column="object_name" property="objectName" />
+		<result column="service_name" property="serviceName" />
+		<result column="method_name" property="methodName" />
+		<result column="commit_time" property="commitTime" />
+		<result column="status" property="status" />
+		<result column="module_name" property="moduleName" />
+		<result column="biz_id" property="bizId" />
+		<result column="instance_desc" property="instanceDesc" />
+	</resultMap>
+
+	<sql id="taskFullColumns">
+		id,gmt_create,gmt_modify,user_id, user_name, instance, object_name, service_name, method_name,
+		commit_time,status,module_name,biz_id,instance_desc
+	</sql>
+
+	<insert id="insert" parameterClass="com.longan.biz.dataobject.Task">
+		insert into task (
+		<include refid="task.taskFullColumns" />
+		) values (id,now(),now(), #userId#, #userName#, #instance#, #objectName#, #serviceName#, #methodName#,
+		#commitTime#,1,#moduleName#,#bizId#, #instanceDesc#)
+		<selectKey resultClass="Long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<select id="queryListUnDone" resultMap="taskResult">
+		select
+		<include refid="task.taskFullColumns" />
+		from task where status = 1 and commit_time &lt; DATE_ADD(NOW(),INTERVAL #value# SECOND);
+	</select>
+
+	<update id="updateStatusByid">
+		update task set status = #status#,gmt_modify = now() where id = #id#
+	</update>
+
+	<update id="cancelTask">
+		update task set status = 3,gmt_modify = now() where id = #id# and status = 1
+	</update>
+
+	<sql id="whereConditions">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userId">
+				user_id = #userId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userName">
+				user_name like CONCAT('%', #userName#, '%')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bizId">
+				biz_id = #bizId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="moduleName">
+				module_name like CONCAT('%', #moduleName#, '%')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status">
+				status = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startGmtCreate">
+				gmt_create &gt; #startGmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endGmtCreate">
+				gmt_create &lt; DATE_ADD(#endGmtCreate#,INTERVAL 1 DAY)
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+
+	<select id="queryByPage" resultMap="taskResult">
+		select
+		<include refid="task.taskFullColumns" />
+		from task
+		<include refid="task.whereConditions" />
+		ORDER BY gmt_create DESC LIMIT #startRow#,#pageSize#
+	</select>
+
+	<select id="queryByPageCount" resultClass="java.lang.Integer">
+		SELECT count(*) from task
+		<include refid="task.whereConditions" />
+	</select>
+
+	<update id="updateTaskById">
+		update task set gmt_modify = now(),commit_time = #commitTime# where id = #id# and status = 1
+	</update>
+
+	<select id="getTaskById" resultMap="taskResult">
+		select
+		<include refid="task.taskFullColumns" />
+		from task where id = #value#
+	</select>
+</sqlMap>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="manual_order">
+	<resultMap id="ManualOrderResult" class="com.longan.biz.dataobject.ManualOrder">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="gmt_create" jdbcType="DATETIME" property="gmtCreate" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="serialno" jdbcType="VARCHAR" property="serialno" />
+		<result column="log_id" jdbcType="BIGINT" property="logId" />
+		<result column="biz_order_id" jdbcType="BIGINT" property="bizOrderId" />
+		<result column="item_uid" jdbcType="VARCHAR" property="itemUid" />
+		<result column="item_id" jdbcType="INTEGER" property="itemId" />
+		<result column="item_name" jdbcType="VARCHAR" property="itemName" />
+		<result column="item_face_price" jdbcType="INTEGER" property="itemFacePrice" />
+		<result column="upstream_memo" jdbcType="VARCHAR" property="upstreamMemo" />
+		<result column="repeat_type" jdbcType="INTEGER" property="repeatType" />
+	</resultMap>
+
+	<sql id="manualOrderFullColumns">
+		id, gmt_create, status, user_id, serialno, log_id, biz_order_id, item_uid, item_id, item_name,
+		item_face_price, upstream_memo, repeat_type
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ManualOrderResult">
+		select
+		<include refid="manual_order.manualOrderFullColumns" />
+		from manual_order where id = #id:BIGINT#
+	</select>
+	<insert id="insert" parameterClass="com.longan.biz.dataobject.ManualOrder">
+		insert into manual_order (
+		<include refid="manual_order.manualOrderFullColumns" />
+		) values (#id:BIGINT#, now(), #status:INTEGER#, #userId:BIGINT#, #serialno:VARCHAR#, #logId:BIGINT#,
+		#bizOrderId:BIGINT#, #itemUid:VARCHAR#, #itemId:INTEGER#, #itemName:VARCHAR#, #itemFacePrice:INTEGER#,
+		#upstreamMemo:VARCHAR#, #repeatType:INTEGER#)
+		<selectKey resultClass="Long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterClass="com.longan.biz.dataobject.ManualOrder">
+		update manual_order
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="serialno">
+				serialno = #serialno:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="bizOrderId">
+				biz_order_id = #bizOrderId:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="itemUid">
+				item_uid = #itemUid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemId">
+				item_id = #itemId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="itemName">
+				item_name = #itemName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="itemFacePrice">
+				item_face_price = #itemFacePrice:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="upstreamMemo">
+				upstream_memo = #upstreamMemo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="repeatType">
+				repeat_type = #repeatType:INTEGER#
+			</isNotNull>
+		</dynamic>
+		where id = #id:BIGINT#
+	</update>
+	<select id="selectBySerialno" resultMap="ManualOrderResult">
+		select
+		<include refid="manual_order.manualOrderFullColumns" />
+		from manual_order where serialno = #serialno:VARCHAR#
+	</select>
+	<select id="selectByLogId" resultMap="ManualOrderResult">
+		select
+		<include refid="manual_order.manualOrderFullColumns" />
+		from manual_order where log_id = #logId:BIGINT# ORDER BY gmt_create DESC
+	</select>
+</sqlMap>

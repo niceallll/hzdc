@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>鼎驰科技</title>
+	#parse("common/common.vm")
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/chur.css" />
+</head>
+<body>
+	<div class="chur-note">
+	<div class="alert alert-success" style="display: block;">
+		<h4>成功提示</h4>
+		<div class="context">
+			<p>你所产生的记录超过一定数量，系统将在后台产生，请稍后（大约需要一小时左右）在相应的下载业务功能中直接下载该文件，请不要重复操作，否则将影响生成进度，文件名是：$!fileName</p>
+		</div>
+		<div class="rightbtn">
+			<input type="button" class="btn btn-danger" onclick="javascript:history.go(-1)" id="chur" value="返回">&nbsp;
+        </div>
+	</div>
+	</div>
+	<iframe class="alert-modal"></iframe>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig
+	PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="true" lazyLoadingEnabled="true" maxRequests="64"
+		maxSessions="20" maxTransactions="10" defaultStatementTimeout="60" useStatementNamespaces="true" />
+	<sqlMap resource="dbmaps/commit_test_SqlMap.xml" />
+	<sqlMap resource="dbmaps/biz_order_SqlMap.xml" />
+	<sqlMap resource="dbmaps/item_SqlMap.xml" />
+	<sqlMap resource="dbmaps/acct_info_SqlMap.xml" />
+	<sqlMap resource="dbmaps/acct_log_SqlMap.xml" />
+	<sqlMap resource="dbmaps/pay_order_SqlMap.xml" />
+	<sqlMap resource="dbmaps/refund_order_SqlMap.xml" />
+	<sqlMap resource="dbmaps/charge_order_SqlMap.xml" />
+	<sqlMap resource="dbmaps/user_info_SqlMap.xml" />
+	<sqlMap resource="dbmaps/order_log_SqlMap.xml" />
+	<sqlMap resource="dbmaps/stock_SqlMap.xml" />
+	<sqlMap resource="dbmaps/operation_info_SqlMap.xml" />
+	<sqlMap resource="dbmaps/operation_role_relation_SqlMap.xml" />
+	<sqlMap resource="dbmaps/role_info_SqlMap.xml" />
+	<sqlMap resource="dbmaps/user_role_relation_SqlMap.xml" />
+	<sqlMap resource="dbmaps/stock_log_SqlMap.xml" />
+	<sqlMap resource="dbmaps/item_supply_SqlMap.xml" />
+	<sqlMap resource="dbmaps/mobile_belong_SqlMap.xml" />
+	<sqlMap resource="dbmaps/mobile_qblib_SqlMap.xml" />
+	<sqlMap resource="dbmaps/phone_qblib_SqlMap.xml" />
+	<sqlMap resource="dbmaps/area_info_SqlMap.xml" />
+	<sqlMap resource="dbmaps/trader_info_SqlMap.xml" />
+	<sqlMap resource="dbmaps/operation_log_SqlMap.xml" />
+	<sqlMap resource="dbmaps/task_SqlMap.xml" />
+	<sqlMap resource="dbmaps/item_price_SqlMap.xml" />
+	<sqlMap resource="dbmaps/supply_order_SqlMap.xml" />
+	<sqlMap resource="dbmaps/bulk_order_SqlMap.xml" />
+	<sqlMap resource="dbmaps/cash_order_SqlMap.xml" />
+	<sqlMap resource="dbmaps/export_SqlMap.xml" />
+	<sqlMap resource="dbmaps/black_list_SqlMap.xml" />
+	<sqlMap resource="dbmaps/item_sales_SqlMap.xml" />
+	<sqlMap resource="dbmaps/supply_batch_SqlMap.xml" />
+	<sqlMap resource="dbmaps/sms_order_SqlMap.xml" />
+	<sqlMap resource="dbmaps/sms_supply_SqlMap.xml" />
+	<sqlMap resource="dbmaps/sms_notify_SqlMap.xml" />
+	<sqlMap resource="dbmaps/manual_log_SqlMap.xml" />
+	<sqlMap resource="dbmaps/manual_order_SqlMap.xml" />
+	
+	<sqlMap resource="dbmaps/acct_log_hzdcMap.xml" />
+	<sqlMap resource="dbmaps/biz_order_hzdcMap.xml" />
+	<sqlMap resource="dbmaps/charge_order_hzdcMap.xml" />
+	<sqlMap resource="dbmaps/pay_order_hzdcMap.xml" />
+	<sqlMap resource="dbmaps/supply_order_hzdcMap.xml" />
+</sqlMapConfig>

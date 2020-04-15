@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/select.vm")
+	#parse("common/pagination.vm")
+	#parse("common/common.vm")
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="/css/doubleDate.css" />
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="/js/tip.js"></script>
+	<script type="text/javascript" src="/js/doubleDate2.0.js"></script>
+	<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+</head>
+<body>
+	$!errorMsg
+    <div></div>
+    <div class="alert alert-info">当前位置<b class="tip"></b>$!bizName<b class="tip"></b>订单查询</div>
+	 <form id="bizOrderQueryForm" action="queryBizOrder.do" method="post" onsubmit="return submitCheck();" >
+		<input type="hidden" name="bizId" value="$!bizOrderQuery.bizId" />
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <td colspan="8" class="auto-style2">&nbsp;请填写查询条件 </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>订单号</td>
+                    <td class="detail"><input id="formid" name="id" value="$!bizOrderQuery.id"/></td>
+                    <td>商品</td>
+                    <td>#selectClassMedium($!itemList,'itemId',$!bizOrderQuery.itemId)</td>
+                    <td>订单状态 </td>
+                    <td>#select($!statusList,'status',$!bizOrderQuery.status)</td>
+					<td>支付单号</td>
+                    <td><input class="input-small" id="formtype" name="payOrderId" value="$!bizOrderQuery.payOrderId" /></td>
+                </tr>
+                <tr>
+                    <td>订单日期 </td>
+                    <td>
+                        <div class="input-append">
+							<input class="input-small doubledate" readonly="readonly" size="10" type="text" name="startGmtCreate" value="$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.startGmtCreate)" /><span class="add-on"><i class="icon-calendar"></i></span><input style="width: 30px;height: 20px;border: 2px lightgray solid" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" name="startHour" maxlength="2" value="$!bizOrderQuery.startHour" class="hourIF" />时<input maxlength="2" style="width: 30px;height: 20px;border: 2px lightgray solid" onkeyup="value=value.replace(/[^\d]/g,'')" name="startMinute" value="$!bizOrderQuery.startMinute" class="minuteIF"/>分<input style="width: 30px;height: 20px;border: 2px lightgray solid" maxlength="2" onkeyup="value=value.replace(/[^\d]/g,'')"   name="startSecond" value="$!bizOrderQuery.startSecond" maxlength="2" class="minuteIF"/>秒至<input id="endtime" class="input-small doubledate" readonly="readonly" type="text" name="endGmtCreate" value="$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.endGmtCreate)" /><span class="add-on"><i class="icon-calendar"></i></span></span><input name="endHour" value="$!bizOrderQuery.endHour" style="width: 30px;height: 20px;border: 2px lightgray solid" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="2" class="hourIF"  />时<input maxlength="2" name="endMinute" style="width: 30px;height: 20px;border: 2px lightgray solid " onkeyup="value=value.replace(/[^\d]/g,'')" value="$!bizOrderQuery.endMinute"  class="minuteIF"/>分<input maxlength="2"  name="endSecond" style="width: 30px; height: 20px;border: 2px lightgray solid;" onkeyup="value=value.replace(/[^\d]/g,'')" value="$!bizOrderQuery.endSecond" class="minuteIF"/>秒
+						</div>
+                    </td>
+                    #if($!bizId != 400)<td>客户手机号</td>#else<td>QQ号</td>#end
+                    <td class="td_detail"><input class="input-small" id="formtype" name="itemUid" value="$!bizOrderQuery.itemUid" /></td>
+                	<td>下游流水号</td>
+                    <td colspan="3"><input id="formtype" name="downstreamSerialno" value="$!bizOrderQuery.downstreamSerialno" /></td>
+                </tr>
+				#if($!userInfo.isAdmin())
+                <tr>
+                    <td>代理商</td>
+                    <td>#selectClassMedium($!downStreamUser,'userId',$!bizOrderQuery.userId)</td>
+                    <td>预成功状态 </td>
+                    <td>#select($!notifyStatusList,'notifyStatus',$!bizOrderQuery.notifyStatus)</td>
+					<td>省域</td>
+                    <td>#select($!provinceList,'provinceCode',$!bizOrderQuery.provinceCode)</td>
+					<td>处理人</td>
+                    <td>#select($!operList,'dealOperId',$!bizOrderQuery.dealOperId)</td>
+                </tr>
+				<tr>
+                    <td>充值时长</td>
+                    <td colspan="3">
+						大于等于
+						<input class="input-small" name="moreCostTime" value="$!bizOrderQuery.moreCostTime" />
+						小于等于
+						<input class="input-small" name="lessCostTime" value="$!bizOrderQuery.lessCostTime" /> 秒
+                    </td>
+                    <td>预回调时长</td>
+                    <td colspan="3">
+						大于等于
+						<input class="input-small" name="moreNotifyTime" value="$!bizOrderQuery.moreNotifyTime" />
+						小于等于
+						<input class="input-small" name="lessNotifyTime" value="$!bizOrderQuery.lessNotifyTime" /> 秒
+                    </td>
+					<tr>
+					<td>备注</td>
+                    <td>#select($!memo,'memo',$!bizOrderQuery.memo)</td>
+				</tr>
+				</tr>
+				#end
+                <tr>
+                    <td  colspan="8" align="right">
+                        <a class="btn btn-inverse" onclick="javascript:query();">查询</a>
+                        <input class="btn btn-inverse" type="reset" value="清空" />
+                        <a class="btn btn-inverse" onclick="javascript:fileExport()">导出</a>
+					</td>
+                </tr>
+            </tbody>
+		</table>
+##		 批量操作#权限判断吧
+###if($!userInfo.isAdmin())
+##	#if($!bizOrderList.get(0).isManNotify())
+##		#if($!bizOrderList.get(0).canDeal())
+		 <div class="alert alert-info">
+			 <input type="checkbox" name="" value="all" onclick="selectAll()" />
+			 <a class="btn btn-danger"  onclick="javascript:refundBatch();">批量失败退款</a>
+			 <a class="btn btn-danger" onclick="javascript:repeatChargeBatch();">批量失败补充</a>
+			 <a class="btn btn-danger" onclick="javascript:makeUpBatch();">批量成功确认</a>
+		 </div>
+##		#end
+##	#end
+###end
+		<table class="table table-striped table-bordered table-condensed" id="list">
+        <thead>
+            <tr class="tr_detail">
+				<td></td>
+                <td>订单号 </td>
+				<td>支付单号 </td>
+				<td>下游流水号 </td>
+				#if($!bizId != 400)
+                <td>客户手机号</td>
+                <td>手机区域</td>
+                #else
+                <td>QQ号</td>
+                #end
+                <td>代理商</td>
+                <td>商品</td>
+                <td>交易金额 </td>
+                <td>交易时间 </td>
+                #if($!userInfo.isAdminOrPartner())
+			    <td>充值时长</td>
+			    <td>预成功时长</td>
+			    <td>上游流水号</td>
+			    <td>供货数</td>
+			    #end
+                <td>实际状态 </td>
+                <td>快速状态 </td>
+				<td>操作</td>
+				#if($!userInfo.isAdmin())
+				<td>处理人</td>
+				<td>供货摘要</td>
+				<td>备注</td>
+				#end
+				<td>扩展信息</td>
+				<td>补充</td>
+    			<td>人工补充</td>
+            </tr>
+        </thead>
+        <tbody>
+			#foreach($!bizOrder in $!bizOrderList)
+				<tr>
+				<td><input type="checkbox" name="" value="$!bizOrder.id"/></td>
+				<td>$!bizOrder.id</td>
+				<td>$!bizOrder.payOrderId</td>
+				<td>$!bizOrder.downstreamSerialno</td>
+                <td>$!bizOrder.itemUid</td>
+                #if($!bizId != 400)
+				<td>$!bizOrder.uidAreaInfo</td>
+				#end
+                <td><a href="../user/userInfoShow.do?id=$!bizOrder.userId" >$!bizOrder.userName</a></td>
+                <td>
+					<font #if($!bizId == 200 && $!bizOrder.itemId != 1 ) color=red #end>
+					$!bizOrder.itemName
+                    </font>
+				</td>
+				#if($!userInfo.isPartner())
+                <td>$!bizOrder.amountDummyDesc</td>
+                #else
+                <td>$!bizOrder.amountDesc</td>
+				#end
+                <td>$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!bizOrder.gmtCreate)</td>
+                #if($!userInfo.isAdminOrPartner())
+				<td>$!bizOrder.costTimeDesc</td>
+				<td>$!bizOrder.notifyTimeDesc</td>
+				<td>$!bizOrder.upstreamSerialno</td>
+				<td>$!bizOrder.supplyCount</td>			
+				#end
+                <td>
+					<font #if($!bizOrder.showRed())color=red #end #if($!bizOrder.showGreen())color=green #end>
+					$!bizOrder.statusDesc
+					</font>
+				</td>
+                <td>
+                	<font #if($!bizOrder.notifyRed())color=red #end #if($!bizOrder.notifyGreen())color=green #end>
+                	$!bizOrder.notifyStatusDesc
+                	</font>
+                </td>
+				<td>
+					#if($!userInfo.isAdmin())
+						<a href="querySupplyOrder.do?bizOrderId=$!bizOrder.id&bizId=$!bizOrderQuery.bizId" class="btn btn-mini btn-primary add" ">查看供货</a>
+    					<a href="#" onclick="javascript:window.open('bizOrderShow.do?bizId=$!bizOrderQuery.bizId&bizOrderId=$!bizOrder.id','newwin','width=750,height=550,scrollbars=yes,top=50,left=50');" class="btn btn-mini btn-primary add" >详情</a>
+                        <a href="#" onclick="javascript:openwindow('bizOrderDeal.do?type=remaks&bizOrderId=$!bizOrder.id&bizId=$!bizOrderQuery.bizId','newwin',500,200);" class="btn btn-mini btn-primary add">备注</a>
+						#if($!bizOrder.canCallback())
+	    					<a href="bizOrderDeal.do?type=callback&bizOrderId=$!bizOrder.id" class="btn btn-mini btn-success" onclick="return confirm('是否确认对定单： $!bizOrder.id 做回调操作')">回调</a>
+    					#end
+    					#if($!bizOrder.isManNotify())
+        					#if($!bizOrder.canDeal())
+
+        						<a href="bizOrderDeal.do?type=refund&bizOrderId=$!bizOrder.id" class="btn btn-mini btn-danger" onclick="return confirm('是否确认对订单: $!bizOrderId.id 做退款操作')">失败退款</a>
+        						<a href="bizOrderDeal.do?type=repeatCharge&bizOrderId=$!bizOrder.id" class="btn btn-mini btn-danger" onclick="return confirm('是否确认对订单： $!bizOrderId.id 做失败补充操作，操作前请务必核实是供货失败')">失败补充</a>
+        						<a href="bizOrderDeal.do?type=fastestCharge&bizOrderId=$!bizOrder.id" class="btn btn-mini btn-danger" onclick="return confirm('是否确认对订单： $!bizOrderId.id 做快速补充操作，操作前请务必核实是供货失败')">快速补充</a>
+        						<a href="bizOrderDeal.do?type=makeUp&bizOrderId=$!bizOrder.id" class="btn btn-mini btn-danger" onclick="return confirm('是否确认对订单： $!bizOrderId.id 做确认操作')">成功确认</a>
+        					#end
+	    					#if($!bizOrder.canNotify())
+		    					<a href="bizOrderDeal.do?type=notify&bizOrderId=$!bizOrder.id" class="btn btn-mini btn-success" onclick="return confirm('是否确认对定单： $!bizOrder.id 做预成功回调操作')">预成功回调</a>
+	    					#end
+	    					<a href="#" onclick="javascript:window.open('bizOrderDeal.do?type=mobileCheck&bizOrderId=$!bizOrder.id','newwin','width=500,height=300,scrollbars=no,top=50,left=50');" class="btn btn-mini btn-primary add">号码验证</a>
+
+
+						#end
+						<!-- 
+        					#if($!bizOrder.canManCancel())
+        						<a href="bizOrderCancel.do?bizOrderId=$!bizOrder.id&itemUid=$!bizOrderQuery.itemUid&itemId=$!bizOrderQuery.itemId&userId=$!bizOrderQuery.userId&startGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.startGmtCreate)&endGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.endGmtCreate)&bizId=$!bizOrderQuery.bizId&status=$!bizOrderQuery.status" class="btn btn-mini btn-danger" onclick="return confirm('是否确认退款操作，退款操作后，会将钱退款给代理商')">退款</a>
+        					#end					
+        					#if($!bizOrder.canManLock())
+        						<a id="prompt_button" href="#" onclick="lockOrder($!bizOrder.id);" class="btn btn-mini btn-danger" >锁定</a>
+    						#end
+    						#if($!bizOrder.canManUnConfirm())
+    							<a href="bizOrderUnConfirm.do?bizOrderId=$!bizOrder.id&itemUid=$!bizOrderQuery.itemUid&itemId=$!bizOrderQuery.itemId&userId=$!bizOrderQuery.userId&startGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.startGmtCreate)&endGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.endGmtCreate)&bizId=$!bizOrderQuery.bizId&status=$!bizOrderQuery.status" class="btn btn-mini btn-danger" onclick="return confirm('是否做未确定操作,未确认后，会挂起订单')">未确认</a>
+    						#end
+        					#if($!bizOrder.canManUnLock())
+        						<a href="bizOrderUnLock.do?bizOrderId=$!bizOrder.id&itemUid=$!bizOrderQuery.itemUid&itemId=$!bizOrderQuery.itemId&userId=$!bizOrderQuery.userId&startGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.startGmtCreate)&endGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.endGmtCreate)&bizId=$!bizOrderQuery.bizId&status=$!bizOrderQuery.status" class="btn btn-mini btn-danger" onclick="return confirm('是否确认解锁操作')">解锁</a>
+        					#end
+        					#if($!bizOrder.canManConfirm())
+        					    <a href="bizOrderConfirm.do?bizOrderId=$!bizOrder.id&itemUid=$!bizOrderQuery.itemUid&itemId=$!bizOrderQuery.itemId&userId=$!bizOrderQuery.userId&startGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.startGmtCreate)&endGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.endGmtCreate)&bizId=$!bizOrderQuery.bizId&status=$!bizOrderQuery.status" class="btn btn-mini btn-danger" onclick="return confirm('是否确认充值成功操作')">确认充值</a>
+        					#end						
+    						#if($!bizOrder.isSupplyFromStock())
+    						   <a href="queryStock.do?id=$!bizOrder.stockId&bizId=$!bizOrderQuery.bizId" target="_blank" class="btn btn-mini btn-primary add">查看库存</a>
+    						#end
+    						#if($!bizOrder.isCardForwardCharge() && $!bizOrder.canDeal())
+    						  <a href="#" onclick="javascript:window.open('supplyQuery.do?type=cardCheck&stockId=$!bizOrder.stockId','newwin','width=1000,height=300,scrollbars=yes,top=50,left=50');" class="btn btn-mini btn-primary add">校验卡密</a>
+    						  <a href="#" onclick="javascript:window.open('supplyQuery.do?type=cardChargeInfoQuery&stockId=$!bizOrder.stockId','newwin','width=1000,height=300,scrollbars=yes,top=50,left=50');" class="btn btn-mini btn-primary add">查询充值信息</a>
+    						#end
+						-->
+					#end					
+				</td>
+				#if($!userInfo.isAdmin())
+    				<td>$!bizOrder.dealOperName</td>
+    				<td>$!bizOrder.upstreamMemo</td>
+					<td>$!bizOrder.memo</td>
+				#end
+				<td>$!bizOrder.extend</td>
+				<td>$!bizOrder.repeatTypeDesc</td>
+				<td>$!bizOrder.manualRepeatTypeDesc</td>
+            </tr>
+			#end
+			#pagination2($!bizOrderQuery,'bizOrderQueryForm','queryBizOrder.do')
+        </tbody>
+    </table>
+	</form>
+	<script type="text/javascript">
+    	$(function(){
+	    	$('.doubledate').kuiDate({
+	    		className:'doubledate',
+	    		isDisabled: "1"
+	    	});
+    	});
+    	//预批量退款下架
+		function refundBatch(){
+			if (confirm("是否对选中的订单做 退款操作")) {
+				//alert("pdd进来了");
+				var list = getCheckBox();
+				if(list==null || list.length==0){
+					return;
+				}
+				//alert("准备跳转");
+				console.log("预批量退款下架"+list)
+				window.location.href = "bizOrderDeal.do?type=refundBatch&bizOrderIds=" + list;
+			}else{
+				return;
+			}
+		}
+		//预批量失败补充
+		function repeatChargeBatch(){
+			if (confirm("是否确认对选中的订单：  做失败补充操作，操作前请务必核实是供货失败")) {
+				var list = getCheckBox();
+				if(list==null || list.length==0){
+					return;
+				}
+				console.log("预批量失败补充"+list)
+				window.location.href = "bizOrderDeal.do?type=repeatChargeBatch&bizOrderIds=" + list;
+			}else{
+				return;
+			}
+		}
+		//makeUpBatch批量订单成功操作
+		function makeUpBatch(){
+			if (confirm("是否对选中的订单做确认订单：  做确认操作")) {
+				var list = getCheckBox();
+				if(list==null || list.length==0){
+					return;
+				}
+
+				console.log("批量订单成功操作"+list)
+				window.location.href = "bizOrderDeal.do?type=makeUpBatch&bizOrderIds=" + list;
+			}else{
+				return;
+			}
+		}
+		//
+        function submitCheck(){
+        	if(!checkDate()){
+    			return false;
+    		}
+        	return true;
+        }
+		
+        var checkDate = function(){
+        	var start_date =  jQuery("input[name='startGmtCreate']").val();
+        	var end_date = jQuery("input[name='endGmtCreate']").val();
+        	var objDate=new Date();
+        	var year = objDate.getFullYear();
+        	var month = objDate.getMonth() + 1;
+        	var day = objDate.getDate();
+        	month = month>=10?month:'0'+month;
+        	day = day>=10?day:'0'+day;
+        	var date = year + "-" + month + "-" + day;
+        	
+        	if(!compareDate(start_date, date)){
+        		alert("起始日期不能大于当前日期！");
+        		return false;
+        	}
+        	if(!compareDate(end_date, date)){
+        		alert("终止日期不能大于当前日期！");
+        		return false;
+        	}
+        	
+        	if(!compareDate(start_date, end_date)){
+        		alert("起始日期不能大于终止日期!");
+        		return false;
+        	}
+        	var  beginTime = new Date(Date.parse(start_date.replace(/-/g,   "/")));
+        	var  endTime = new Date(Date.parse(end_date.replace(/-/g,   "/"))); 
+        	var onemonthe=2*30*24*60*60*1000;
+        	
+        	if((endTime-beginTime)>onemonthe){
+        		alert("只能查二个月之内的记录!");
+        		return false;
+        	}
+
+        	return true;
+   	 	}
+    
+        function compareDate(date1, date2){
+        	year1 = date1.substring(0,date1.indexOf("-"));
+            year2 = date2.substring(0,date2.indexOf("-"));
+            month1 = date1.substring(date1.indexOf("-") + 1,date1.lastIndexOf("-"));
+            month2 = date2.substring(date2.indexOf("-") + 1,date2.lastIndexOf("-"));
+            day1 = date1.substring(date1.lastIndexOf("-") + 1);
+            day2 = date2.substring(date2.lastIndexOf("-") + 1);
+            
+            if(year1 > year2){
+                return false;
+            } else if(year1 < year2){
+            	return true;
+            } else if(month1 > month2){
+                return false;
+            } else if(month1 < month2){
+            	return true;
+            } else if(day1 > day2){
+                return false;
+            } else if(day1 < day2){
+            	return true;
+            }
+            return true;
+        }
+		
+		function query(){
+
+			var hourIF = document.getElementsByClassName('hourIF');
+			for (var i =0 ; i<hourIF.length;i++){
+				//console.log(parseInt(hourIF[i].value);
+				if (parseInt(hourIF[i].value)>24) {
+					alert("小时设置必须小于24");
+					return ;
+				}
+			}
+			//分秒的判断
+			var   minuteIF = document.getElementsByClassName('minuteIF');
+			for (var i =0 ; i<minuteIF.length;i++){
+				if (parseInt(minuteIF[i].value)>60) {
+					alert("分钟或秒钟设置必须小于60");
+					return ;
+				}
+			}
+			jQuery('#bizOrderQueryForm').attr("action", "queryBizOrder.do");
+			jQuery('#bizOrderQueryForm').submit();
+		}
+		
+		function fileExport(){
+			jQuery('#bizOrderQueryForm').attr("action", "bizOrderExport.do");
+			jQuery('#bizOrderQueryForm').submit();
+		}
+		
+    	function lockOrder(orderId) {
+			var oldValue = jQuery.cookie('posId')
+			if(!oldValue){
+				oldValue = '';			
+			}
+			
+		    var str=prompt("请输入pos机id",oldValue);
+			if(str==null){
+				return;
+			}
+            if(str){
+				if(!jQuery.isNumeric(str)){
+    				alert("pos机id必须是数字");
+    				return;
+				}
+				jQuery.cookie('posId', str ,{expires:1});
+                window.location.href = "bizOrderLock.do?bizOrderId=" + orderId +   "&posId=" + str +  "&itemUid=$!bizOrderQuery.itemUid&itemId=$!bizOrderQuery.itemId&userId=$!bizOrderQuery.userId&startGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.startGmtCreate)&endGmtCreate=$!dateTool.format("yyyy-MM-dd", $!bizOrderQuery.endGmtCreate)&bizId=$!bizOrderQuery.bizId&status=$!bizOrderQuery.status";
+            }else{
+				alert("必须输入pos机id");
+				return;
+			}
+       }
+       function openwindow(url,name,iWidth,iHeight) {
+           //获得窗口的垂直位置
+           var iTop = (window.screen.availHeight - 30 - iHeight) / 2;
+           //获得窗口的水平位置
+           var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;
+           window.open(url, name, 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no');
+
+       }
+		function selectAll(){
+			var a = document.getElementsByTagName("input");
+			var tag = true;
+			for(var i = 0;i<a.length;i++){
+				if(a[i].type != "checkbox") {
+					continue;
+				}
+				if(a[i].checked) {
+					tag = false;
+					break;
+				}else{
+					tag = true;
+					break;
+				}
+			}
+
+			for(var i = 0;i<a.length;i++){
+				if(a[i].type != "checkbox") {
+					continue;
+				}
+				if(tag) {
+					a[i].checked = false;
+				}else{
+					a[i].checked = true;
+				}
+			}
+		}
+		function getCheckBox(){
+			var a = document.getElementsByTagName("input");
+			var list = "";
+			var count = 0;
+			for(var i = 0;i<a.length;i++){
+				if(a[i].type != "checkbox") {
+					continue;
+				}
+
+				if(a[i].checked) {
+					if(a[i].value=="all"){
+						continue;
+					}
+					count++;
+					if(count == 1){
+						list = a[i].value;
+					}else{
+						list = list + "," + a[i].value;
+					}
+				}
+			}
+			if(list.length==0){
+				alert("必须选择一个商品");
+				return null;
+			}
+			return list;
+		}
+</script>
+</body>
+</html>

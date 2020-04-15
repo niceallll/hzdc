@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>鼎驰科技</title>
+	#parse("common/common.vm")
+	#parse("common/errorUtils.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/eucp/nxyd/jsbn.js"></script>
+	<script type="text/javascript" src="$!staticServer/eucp/nxyd/prng4.js"></script>
+	<script type="text/javascript" src="$!staticServer/eucp/nxyd/rng.js"></script>
+	<script type="text/javascript" src="$!staticServer/eucp/nxyd/base64.js"></script>
+	<script type="text/javascript" src="$!staticServer/eucp/rsa.js"></script>
+</head>
+<body>
+	$!errorMsg
+    <div></div>
+    <div class="alert alert-info">当前位置<b class="tip"></b>用户管理<b class="tip"></b>开始爬网</div>
+    <form id="crawlLoginForm" action="httpDeal.do?requestType=login" method="post" onsubmit="return submitLogin();">
+    <table class="table table-striped table-bordered table-condensed">
+    	<input type="hidden" id="area" name="area" value="2">
+    	<input type="hidden" id="pos" name="pos" value="$!crawlLogin.pos">
+		<input type="hidden" id="rsakey" name="rsakey" value="$!crawlLogin.rsakey">
+    	<input type="hidden" id="inuser" name="inuser" value="$!crawlLogin.user">
+    	<input type="hidden" id="inpwd" name="inpwd" value="$!crawlLogin.pwd">
+		<input type="hidden" id="user" name="user">
+		<input type="hidden" id="pwd" name="pwd">
+		<input type="hidden" id="rand" name="rand">
+		<tr>
+			<td align="right">图片验证码：</td>
+			<td><input type="text" id="inrand" name="inrand"><img src="$!staticServer/verify.jpg?id=$!crawlLogin.pos" align="center"></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+          	<td>
+          		<input class="btn btn-inverse" type="submit" value="开始"/>
+				<input class="btn btn-inverse" type="button" onclick="javascript:history.go(-1)" value="返回"/>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<script type="text/javascript">
+		function submitLogin(){
+			var pos = $("#pos").val();
+			if(pos.length == 0){
+                alert("读取pos是空");
+                return false;
+            }
+			var rsakey = $("#rsakey").val();
+			if(rsakey.length == 0){
+                alert("读取rsakey是空");
+                return false;
+            }
+            var inuser = $("#inuser").val();
+            if(inuser.length == 0){
+                alert("用户名是空");
+                return false;
+            }
+            var inpwd = $("#inpwd").val();
+            if(inpwd.length == 0){
+                alert("密码是空");
+                return false;
+            }
+            var inrand = $("#inrand").val();
+            if(inrand.length == 0){
+                alert("图片验证码是空");
+                return false;
+            }
+            
+            var rsa = new RSAKey();
+			try {
+				rsa.setPublic(rsakey, "010001");
+				var user = rsa.encrypt(inuser);
+				var pwd = rsa.encrypt(inpwd);
+				var rand = rsa.encrypt(inrand);
+			} catch (e) {
+				alert(e);
+				return false;
+			}
+			$("#user").val(user);
+			$("#pwd").val(pwd);
+			$("#rand").val(rand);
+			return true;
+		}
+	</script>
+</body>
+</html>

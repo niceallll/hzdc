@@ -1,0 +1,24 @@
+<thead><tr><td colspan="2"><b>价格列表信息</b></td><td colspan="2">$!errorMsg</td></tr></thead>
+<tbody>
+#foreach($!itemSales in $!itemPriceList)
+    <tr>
+		<td width="550">
+			<input type="hidden" id="itemId$!itemSales.itemId" name="itemId$!itemSales.itemId" value="$!itemSales.itemId"/>
+			商品编号(名称)：$!itemSales.itemId ($!itemSales.itemName)
+		</td>
+		<td width="150">
+			商品面值(元)：$!itemSales.getFacePriceDesc()
+		</td>
+		<td width="80">下游价格</td>
+		<td width="450">
+			<input type="hidden" id="itemPriceId$!itemSales.itemId" name="itemPriceId$!itemSales.itemId" value="$!itemSales.id"/>
+			<input type="text" id="itemSalesPrice$!itemSales.itemId" name="itemSalesPrice$!itemSales.itemId" value="$!itemSales.getSalesPriceDesc()" style="width:80px" #if(!$!itemSales.canOpen()) readonly="readonly" #end>
+			<input type="button" id="openBtn$!itemSales.itemId" onclick="openItemPrice('$!itemSales.itemId')" value="开通" #if(!$!itemSales.canOpen()) disabled="disabled" #end/>
+			<input type="button" id="closeBtn$!itemSales.itemId" onclick="closeItemPrice('$!itemSales.itemId')" value="关闭" #if(!$!itemSales.canClose()) disabled="disabled" #end/>
+			<input type="button" id="delBtn$!itemSales.itemId" onclick="delItemPrice('$!itemSales.itemId')" value="删除" #if(!$!itemSales.canDel()) disabled="disabled" #end/>
+			<input type="button" id="editBtn$!itemSales.itemId" onclick="editItemPrice('$!itemSales.itemId')" value="修改" #if(!$!itemSales.canEdit()) disabled="disabled" #end/>
+			<font id="status$!itemSales.itemId" color="$!itemSales.getStatusColor()">$!itemSales.getStatusDesc()</font>
+		</td>
+    </tr>
+#end
+</tbody>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/common.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+	
+</head>
+
+#macro(checkSelected $userAuthset $operationId )
+	#if($!userAuthset.contains($!operationId))
+		checked="checked"       		
+	#end
+#end
+
+<body>
+	$!errorMsg
+    <div></div>
+    <div class="alert alert-info">当前位置<b class="tip"></b>系统管理<b class="tip"></b>角色权限设置</div>
+	 <form id="operationRoleRelationSetForm" action="operationRoleRelationSet.do" method="post">
+			#parse("common/select.vm")
+		<input id="roleId" type="hidden" name="roleId" value="$!roleId" />	
+		<input id="requestParam" type="hidden" name="requestParam" value="" />
+		<font color="red">角色：$!roleDesc</font> </br>
+		#foreach($!mainOperation in $!mainOperationList)
+			<input id="$!mainOperation.mainOperationInfo.id mainId" type="checkbox" name="mainBox" value="$!mainOperation.mainOperationInfo.id" #checkSelected($!roleOperationSet,$!mainOperation.mainOperationInfo.id) onclick="checkAll(this.id)">
+			$!mainOperation.mainOperationInfo.operationName
+         <ul>
+         #foreach($!subOperationInfo in $!mainOperation.subOperationInfoList)
+         	<li style="list-style-type:none;">
+         		<input id="$!mainOperation.mainOperationInfo.id $!subOperationInfo.id" type="checkbox" name="subBox" value="$!subOperationInfo.id" #checkSelected($!roleOperationSet,$!subOperationInfo.id) onclick="checkSubBox(this.id)">
+         		$!subOperationInfo.operationName
+         	</li>
+         	#end
+         </ul>
+        #end
+        <input class="btn btn-inverse" id="find" type="button" onclick="boxSubmit()" value="保存" />
+        <input class="btn btn-inverse" type="button" onclick="javascript:window.location.href='queryRoleInfo.do'" value="取消" /></td>
+	</form>
+	 
+<script type="text/javascript">
+    	$(function(){
+    	$('.doubledate').kuiDate({
+    		className:'doubledate',
+    		isDisabled: "1"
+    	});
+    	});
+	
+function checkAll(id){
+     var allBox= document.getElementsByTagName("input");
+	     for (var i=0;i<allBox.length;i++){ 
+	     	if (allBox[i].id.split(' ')[0]==id.split(' ')[0]){ 
+	               if(document.getElementById(id).checked)
+                      {
+                        allBox[i].checked=true;
+                      }
+                      else
+                    {
+                      allBox[i].checked=false;
+                } 
+	        }
+	     }
+}
+function checkSubBox(id){
+	var mainId = id.split(' ')[0]+' mainId';
+	if(document.getElementById(id).checked){
+		document.getElementById(mainId).checked=true;
+	}
+}
+function boxSubmit(){
+		var allBox= document.getElementsByTagName("input");
+		var param="";
+		for (var i=0;i<allBox.length-1;i++){
+			if(document.getElementById(allBox[i].id).checked){
+				param+=document.getElementById(allBox[i].id).value+",";
+			}
+		}
+		jQuery('#requestParam').val(param);
+		jQuery('#operationRoleRelationSetForm').submit();
+}
+</script>
+</body>
+</html>

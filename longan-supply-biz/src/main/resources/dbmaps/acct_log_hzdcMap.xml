@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="acct_log_hzdc">
+	<resultMap class="com.longan.biz.dataobject.AcctLog" id="AcctLogResult">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="gmt_create" jdbcType="DATETIME" property="gmtCreate" />
+		<result column="gmt_modify" jdbcType="DATETIME" property="gmtModify" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="acct_id" jdbcType="BIGINT" property="acctId" />
+		<result column="bill_id" jdbcType="BIGINT" property="billId" />
+		<result column="bill_type" jdbcType="INTEGER" property="billType" />
+		<result column="biz_order_id" jdbcType="BIGINT" property="bizOrderId" />
+		<result column="biz_id" jdbcType="INTEGER" property="bizId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="trade_type" jdbcType="INTEGER" property="tradeType" />
+		<result column="amt_in" jdbcType="BIGINT" property="amtIn" />
+		<result column="amt_out" jdbcType="BIGINT" property="amtOut" />
+		<result column="amt_in_ex" jdbcType="BIGINT" property="amtInEx" />
+		<result column="amt_out_ex" jdbcType="BIGINT" property="amtOutEx" />
+		<result column="amt_balance" jdbcType="BIGINT" property="amtBalance" />
+		<result column="channel" jdbcType="INTEGER" property="channel" />
+	</resultMap>
+
+	<select id="selectByPrimaryKey" parameterClass="com.longan.biz.dataobject.AcctLog" resultMap="AcctLogResult"> select id,
+		gmt_create, gmt_modify, user_id, acct_id, bill_id, bill_type, biz_order_id, biz_id, status, trade_type, amt_in,
+		amt_out,amt_in_ex, amt_out_ex, amt_balance, channel from acct_log where id = #id:BIGINT#
+	</select>
+	<insert id="insert" parameterClass="com.longan.biz.dataobject.AcctLog">
+		insert into acct_log (id, gmt_create, gmt_modify, user_id, acct_id, bill_id, bill_type, biz_order_id, biz_id, status,
+		trade_type, amt_in, amt_out,amt_in_ex, amt_out_ex, amt_balance, channel) values (#id:BIGINT#, #gmtCreate:DATETIME#,
+		#gmtModify:DATETIME#, #userId:BIGINT#, #acctId:BIGINT#, #billId:BIGINT#, #billType:INTEGER#, #bizOrderId:BIGINT#,
+		#bizId:INTEGER#, #status:INTEGER#, #tradeType:INTEGER#, #amtIn:BIGINT#, #amtOut:BIGINT#,#amtInEx:BIGINT#,
+		#amtOutEx:BIGINT#, #amtBalance:BIGINT#, #channel:INTEGER#)
+		<selectKey resultClass="Long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+</sqlMap>

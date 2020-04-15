@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	#parse("common/common.vm")
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="$!staticServer/css/doubleDate.css" />
+    <script type="text/javascript" src="$!staticServer/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="$!staticServer/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="$!staticServer/css/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <script type="text/javascript" src="$!staticServer/js/tip.js"></script>
+	<script type="text/javascript" src="$!staticServer/js/doubleDate2.0.js"></script>
+</head>
+<body>
+	$!errorMsg
+    <div></div>
+    <div class="alert alert-info">当前位置<b class="tip"></b>用户管理<b class="tip"></b>用户查询</div>
+	<form id="userInfoQueryForm" action="queryUserInfo.do" method="post">
+		#parse("common/select.vm")
+		<table class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <td colspan="8" class="auto-style2">&nbsp;请填写查询条件 </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>用户编号</td>
+                    <td class="detail ">
+                        <input name="id" value="$!userInfoQuery.id"  />
+                    </td>
+                    <td>用户名</td>
+                    <td class="detail ">
+                        <input class="input-small" name="userName" value="$!userInfoQuery.userName"  />
+                    </td>
+                    <td>登录名</td>
+                    <td>
+						<input class="input-small" name="loginId" value="$!userInfoQuery.loginId"  />
+					</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td >创建日期 </td>
+                    <td >
+                        <div class="input-append">
+							<input class="doubledate input-small" readonly="readonly" size="10" type="text" name="startGmtCreate" value="$!dateTool.format("yyyy-MM-dd", $!userInfoQuery.startGmtCreate)" /><span class="add-on"><i class="icon-calendar"></i></span>至<input id="endtime" class="doubledate input-small" readonly="readonly" type="text" name="endGmtCreate" value="$!dateTool.format("yyyy-MM-dd", $!userInfoQuery.endGmtCreate)" /><span class="add-on"><i class="icon-calendar"></i></span>
+                        </div>
+                    </td>
+					<td>账户编号</td>
+                    <td>
+						<input class="input-small" name="acctId" value="$!userInfoQuery.acctId"  />
+					</td>
+                    <td>用户类型</td>
+                    <td>
+						#select($!typeList,'type',$!userInfoQuery.type)
+					</td>					
+                    <td>用户状态 </td>
+                    <td>
+						#select($!statusList,'status',$!userInfoQuery.status)
+					</td>
+                </tr>
+                <tr>
+                    <td colspan="8" align="right">
+                        <input class="btn btn-inverse" id="find" type="submit" value="查询" />
+                        <input class="btn btn-inverse" type="reset" value="清空" />
+						<a href="userInfoAdd.do" class="btn btn-primary add" >新增用户</a>
+					</td>
+                </tr>
+            </tbody>
+		</table>
+	<table class="table table-striped table-bordered table-condensed" id="list">
+        <thead>
+            <tr class="tr_detail">
+                <td>用户编号 </td>
+				<td>账户编号</td>			
+                <td>登录名</td>
+                <td>用户名</td>
+				<td>注册时间</td>
+				<td>类型</td>
+                <td>状态 </td>
+				<td>操作</td>
+            </tr>
+        </thead>
+        <tbody>
+			#foreach($!userInfo in $!userInfoList)
+				<tr>
+                <td><a href="userInfoShow.do?id=$!userInfo.id">$!userInfo.id</a></td>
+                <td>$!userInfo.acctId</td>
+                <td>$!userInfo.loginId</td>
+				<td>$!userInfo.userName</td>
+				<td>$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!userInfo.gmtCreate)</td>
+				<td>$!userInfo.typeDesc</td>
+                <td>
+					<font #if($!userInfo.showRed())color=red #end #if($!userInfo.showGreen())color=green #end >
+					$!userInfo.statusDesc
+					</font>
+				</td>
+				<td>
+					<a href="userInfoShow.do?id=$!userInfo.id" class="btn btn-mini btn-primary add" >查看</a>
+					<a href="userInfoEdit.do?id=$!userInfo.id" class="btn btn-mini btn-primary add" >修改</a>
+					<a href="userPwdReset.do?id=$!userInfo.id" class="btn btn-mini btn-danger" onclick="return confirm('是否确定初始化密码')">初始密码</a>
+					#if(!$!userInfo.isUpStreamUser())
+					<a href="../system/userRoleRelationSet.do?id=$!userInfo.id" class="btn btn-mini btn-primary add" >角色设置</a>
+					#end
+				</td>
+            </tr>
+			#end
+			
+			#parse("common/pagination.vm")
+			#pagination($!userInfoQuery,'userInfoQueryForm')
+        </tbody>
+    </table>
+	</form>
+	<script type="text/javascript">
+    	$(function(){
+    	$('.doubledate').kuiDate({
+    		className:'doubledate',
+    		isDisabled: "1"
+    	});
+    	});
+    </script>
+</body>
+</html>
