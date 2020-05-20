@@ -1,2 +1,0 @@
-#set($staticServer = $springMacroRequestContext.webApplicationContext.getServletContext().getAttribute('staticServer'))
-#set($domainServer = $springMacroRequestContext.webApplicationContext.getServletContext().getAttribute('domainServer'))

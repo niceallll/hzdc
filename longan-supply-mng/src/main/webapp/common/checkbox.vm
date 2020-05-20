@@ -1,8 +1,0 @@
-#macro(checkBoxFlat $name $checkBoxMap $values)
-    #foreach($key in ${checkBoxMap.keySet()})
-		<span style="display:inline-block">
-        <label><input type="checkbox" name="$name" value="$key" #if($values.contains($key)) checked="true" #end/>${checkBoxMap.get($key)}</label>
-        </span>
-	#end
-#end
-
